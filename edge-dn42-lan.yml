@@ -352,6 +352,47 @@ routers:
         state: "present"
         desc: "joel"
 
+    route_maps:
+      - name: "DN42-ROA"
+        desc: "DN42RouteMap"
+        rules:
+        - rule_no: "30"
+          state: "present"
+          action: "permit"
+          match: "ip address prefix-list filter-import"
+
+        - rule_no: "40"
+          state: "present"
+          action: "deny"
+          match: "ip address prefix-list block-other-ranges"
+
+        - rule_no: "50"
+          state: "present"
+          action: "deny"
+          match: "rpki invalid"
+
+    prefix_lists:
+      - name: "block-other-ranges"
+        desc: "blocks-other-ranges"
+        rules:
+        - rule_no: "10"
+          state: "present"
+          action: "deny"
+          match:
+          - prefix: "10.0.0.0/8"
+            length: "le 32"
+            # length: "ge 10"
+
+      - name: "filter-import"
+        desc: "filter imports to only include DN42 range"
+        rules:
+        - rule_no: "1"
+          state: "present"
+          action: "permit"
+          match:
+          - prefix: "172.20.0.0/14"
+            length: "le 32"
+
 
     # ospf_pid: "1"
     # ospf_routerid: "1.1.1.1"
