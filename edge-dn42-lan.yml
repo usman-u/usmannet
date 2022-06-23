@@ -93,6 +93,14 @@ routers:
             dest: "port 51720"
             protocol: "udp"
 
+
+          - rule_no: "80"
+            state: "present"
+            action: "accept"
+            desc: "accept wg from CA iBGP"
+            dest: "port 51730"
+            protocol: "udp"
+
           - rule_no: "90"
             state: "present"
             action: "accept"
@@ -235,12 +243,38 @@ routers:
             endpoint: "chi-r02.pub.joelheaps.com:50013"
             pubkey: "lVJwCvlEO3J9dWSe0bRaReYOaTtq1heUtQgQK7NnEn8="
 
+      - name: "wg18"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.179"
+        mask: "/31"
+        desc: "p2p_iBGP_CA"
+        port: "51730"
+        wg_peers:
+          - name: "CA"
+            allowedips: "0.0.0.0/0"
+            endpoint: "194.147.71.143:51731"
+            pubkey: "tT41B5fOSLrp9Q1ja3MaXxqa0MLfrvtalyvK2zZ5xTQ="
+
     bgpasn: "4242421869"
+
     bgp_prefixes:
       - prefix: "172.22.132.160"
         mask: "/27"
         address_family: "ipv4-unicast"
         state: "present"
+
+      - prefix: "10.100.100.4"
+        mask: "/32"
+        address_family: "ipv4-unicast"
+        state: "present"
+    
+    bgp_peers:
+
+      - ip: "172.22.132.178"
+        state: "present"
+        remote_as: "4242421869"
+        desc: "p2p_iBGP_CA"
 
       - ip: "172.22.132.169"
         state: "present"
@@ -293,7 +327,7 @@ routers:
 
       - ip: "172.20.229.116"
         state: "present"
-        remote_as: "4141411080"
+        remote_as: "4242421080"
         ebgp_multihop: "250"
         desc: "highdef"
         route_maps:
@@ -304,7 +338,7 @@ routers:
             action: "export"
             state: "present"
 
-      - ip: "172.23.120.49/32"
+      - ip: "172.23.120.49"
         state: "present"
         remote_as: "4242421720"
         ebgp_multihop: "250"
