@@ -58,6 +58,14 @@ routers:
             source: ""
             protocol: "udp"
 
+          - rule_no: "40"
+            state: "present"
+            action: "accept"
+            desc: "accept wg chrismoos 51833"
+            dest: "port 51833"
+            source: ""
+            protocol: "udp"
+
           - rule_no: "90"
             state: "present"
             action: "accept"
@@ -110,6 +118,19 @@ routers:
             pubkey: "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8="
 
 
+      - name: "wg20"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.167"
+        mask: "/32"
+        port: "51833"
+        desc: "p2p_dn42_chrismoos"
+        wg_peers:
+          - name: "chrismoos-dal1"
+            allowedips: "0.0.0.0/0"
+            endpoint: "us-dal01.dn42.tech9.io:52075"
+            pubkey: "iEZ71NPZge6wHKb6q4o2cvCopZ7PBDqn/b3FO56+Hkc="
+
     bgpasn: "4242421869"
 
     bgp_prefixes:
@@ -142,6 +163,20 @@ routers:
           - route_map: "DN42-ROA"
             action: "export"
             state: "present"
+
+
+      - ip: "172.20.16.140"
+        state: "present"
+        remote_as: "4242421588"
+        ebgp_multihop: "255"
+        desc: "chrismoos-dal1"
+        route_maps:
+          - route_map: "DN42-ROA"
+            action: "import"
+            state: "present"
+          - route_map: "DN42-ROA"
+            action: "export"
+            state: "present"
       
     static:
       - type: "interface-route"
@@ -150,6 +185,11 @@ routers:
         distance: ""
         state: "present"
 
+      - type: "interface-route"
+        network: "172.20.16.140/32"
+        nexthop: "wg20"
+        distance: ""
+        state: "present"
 
     route_maps:
       - name: "DN42-ROA"
