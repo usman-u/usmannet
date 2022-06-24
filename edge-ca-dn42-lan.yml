@@ -97,6 +97,19 @@ routers:
             pubkey: "qwjXj/6R9ThUnqeOAYN+MxM6CbIgzjS8WFDdXuyEpHY="
 
 
+      - name: "wg19"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.167"
+        mask: "/32"
+        desc: "p2p_dn42_kioubit"
+        wg_peers:
+          - name: "kioubitUS3"
+            allowedips: "0.0.0.0/0"
+            endpoint: "us3.g-load.eu:21869"
+            pubkey: "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8="
+
+
     bgpasn: "4242421869"
 
     bgp_prefixes:
@@ -117,25 +130,25 @@ routers:
         remote_as: "4242421869"
         desc: "p2p_iBGP_FR"
 
-      # - ip: "172.20.53.104"
-      #   state: "present"
-      #   remote_as: "4242423914"
-      #   ebgp_multihop: "255"
-      #   desc: "kioubit"
-      #   route_maps:
-      #     - route_map: "DN42-ROA"
-      #       action: "import"
-      #       state: "present"
-      #     - route_map: "DN42-ROA"
-      #       action: "export"
-      #       state: "present"
+      - ip: "172.20.53.103"
+        state: "present"
+        remote_as: "4242423914"
+        ebgp_multihop: "255"
+        desc: "kioubitUS3"
+        route_maps:
+          - route_map: "DN42-ROA"
+            action: "import"
+            state: "present"
+          - route_map: "DN42-ROA"
+            action: "export"
+            state: "present"
       
-    # static:
-    #   - type: "interface-route"
-    #     network: "172.20.16.141/32"
-    #     nexthop: "wg15"
-    #     distance: ""
-    #     state: "present"
+    static:
+      - type: "interface-route"
+        network: "172.20.53.103/32"
+        nexthop: "wg19"
+        distance: ""
+        state: "present"
 
 
     route_maps:
