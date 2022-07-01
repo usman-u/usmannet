@@ -1,0 +1,105 @@
+devices:
+  - name: "2960-usman-lan"
+    SSH_conf:
+      hostname: "2960.usman.lan"
+      username: "usman"
+      password: ""
+      use_keys: False
+      key_location: ""
+      secret: ""
+
+    interfaces:
+    - name: "g 0/1"
+      state: "present"
+      desc: "RaspPi"
+      routed: False
+      mode: "access"
+      access_vlan: "10"
+      spanning_tree: "portfast"
+
+
+    - name: "g 0/2"
+      state: "present"
+      desc: "qbitHPDesktop"
+      routed: False
+      mode: "access"
+      access_vlan: "10"
+      spanning_tree: "portfast"
+
+    - name: "g 0/3"
+      state: "present"
+      desc: "NAS"
+      routed: False
+      mode: "access"
+      access_vlan: "10"
+      spanning_tree: "portfast"
+
+
+    - name: "g 0/4"
+      state: "present"
+      desc: "Powerline-TV"
+      routed: False
+      mode: "access"
+      access_vlan: "30"
+      spanning_tree: "portfast"
+
+    - name: "g 0/17"
+      state: "present"
+      desc: "PC"
+      routed: False
+      mode: "access"
+      access_vlan: "30"
+      spanning_tree: "portfast"
+
+    - name: "g 0/18"
+      state: "present"
+      desc: "A4 Printer"
+      routed: False
+      mode: "access"
+      access_vlan: "30"
+      spanning_tree: "portfast"
+
+    - name: "g 0/41"
+      state: "present"
+      desc: "Trunk-ERX"
+      routed: False
+      mode: "trunk"
+      # spanning_tree: "portfast trunk"
+
+    - name: "g 0/45"
+      state: "present"
+      desc: "Trunk-Sw-TV-AP"
+      routed: False
+      mode: "trunk"
+      native_vlan: "10"
+      # spanning_tree: "portfast trunk"
+
+
+    - name: "g 0/46"
+      state: "present"
+      desc: "Trunk-OutHouse-Sw"
+      routed: False
+      mode: "trunk"
+      native_vlan: "10"
+      # spanning_tree: "portfast trunk"
+
+    # - name: "g 0/2"
+    #   state: "present"
+    #   desc: "test trunk"
+    #   routed: False
+    #   mode: "trunk"
+    #   native_vlan: ""
+    #   allowed_vlans: 1,10,20,30
+    #   spanning_tree: "portfast trunk"
+
+
+    # - name: "g 0/3"
+    #   state: "present"
+    #   desc: "ROUTED LINK"
+    #   routed: True
+    #   ip: "1.1.1.1"
+    #   mask: "255.255.255.255"
+    #   # spanning_tree: "portfast"
+    #   # mode: ""
+    #   # native_vlan: "10"
+    #   # allowed_vlans: 1,10,20,30
