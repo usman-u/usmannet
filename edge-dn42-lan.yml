@@ -271,21 +271,6 @@ routers:
     
     bgp_peers:
 
-      - ip: "172.22.132.178"
-        state: "present"
-        remote_as: "4242421869"
-        desc: "p2p_iBGP_CA"
-
-      - ip: "172.22.132.169"
-        state: "present"
-        remote_as: "65534"
-        desc: "p2p_usman"
-
-      - ip: "172.22.132.176"
-        state: "present"
-        remote_as: "65535"
-        desc: "p2p_zahid"
-
       - ip: "172.20.53.104"
         state: "present"
         remote_as: "4242423914"
@@ -431,12 +416,18 @@ routers:
     # ospf_pid: "1"
     # ospf_routerid: "1.1.1.1"
     # use_ospf_routerid: "yes"
-    # ospf_networks:
-    #   - subnet: "192.168.0.0"
-    #     mask: "/24"
-    #     area: "0"
-    #     state: "present"
-    #   - subnet: "192.168.2.0"
-    #     mask: "/24"
-    #     area: "0"
-    #     state: "absent"
+    ospf_networks:
+      - subnet: "10.100.100.0"
+        mask: "/24"
+        area: "0"
+        state: "present"
+      - subnet: "172.22.132.176"
+        mask: "31"
+        area: "0"
+        state: "present"
+      - subnet: "172.22.132.168"
+        mask: "/30"
+        area: "0"
+        state: "present"
+    
+    # TODO: add bgp redistribute
