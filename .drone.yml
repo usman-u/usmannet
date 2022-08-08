@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: Testing Python CI/CD
+name: USMAN.NET CI/CD
 
 steps:
 - name: Install and deploy
@@ -8,6 +8,10 @@ steps:
   commands:
   - pip3 install -r requirements.txt
   - python3 main.py
+- name: Black Code Format Check
+  image: juliopdx/netauto
+  commands:
+  - black . --check
 
 trigger:
   branch:
