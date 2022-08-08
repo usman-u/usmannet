@@ -1,3 +1,6 @@
 netmiko
 jinja2
 pyyaml
+pySMTP
+matplotlib
+discord_webhook
