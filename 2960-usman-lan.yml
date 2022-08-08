@@ -2,11 +2,11 @@ devices:
   - name: "2960-usman-lan"
     SSH_conf:
       hostname: "2960.usman.lan"
-      username: "usman"
-      password: ""
+      username: "test"
+      password: "test"
       use_keys: False
       key_location: ""
-      secret: ""
+      secret: "test"
 
     interfaces:
     - name: "g 0/1"
