@@ -11,7 +11,7 @@ devices:
     interfaces:
     - name: "g 0/1"
       state: "present"
-      desc: "Raspberry Pi"
+      desc: "RaspPi"
       routed: False
       mode: "access"
       access_vlan: "10"
