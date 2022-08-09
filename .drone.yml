@@ -3,7 +3,7 @@ type: docker
 name: USMAN.NET CI/CD
 
 steps:
-- name: discord notification
+- name: discord notification start
   image: appleboy/drone-discord
   settings:
     webhook_id: 
@@ -27,7 +27,7 @@ steps:
   - pip3 install -r requirements.txt
   - python3 main.py
 
-- name: discord notification
+- name: discord notification end
   image: appleboy/drone-discord
   settings:
     webhook_id: 
