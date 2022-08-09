@@ -13,11 +13,11 @@ steps:
 
     message: >
       ```
-      Event:  {{ build.event }}
-      Status: {{ build.status }}
-      Repo:   {{ build.name }} {{ build.author}}
-      Author: {{ build.author }}
-      Started:{{ build.started }}
+      Event:  {{ build.event }} \n
+      Status: {{ build.status }} \n
+      Repo:   {{ build.name }} {{ build.author}} \n
+      Author: {{ build.author }} \n
+      Started:{{ build.started }} \n
       Link:   {{ build.link }} ```
       
       
@@ -37,11 +37,12 @@ steps:
       from_secret: discord_webhook_token
     message: >
       ```
-      {{#success build.status}}
+      {{#success build.status}} \n
         build {{build.number}} succeeded. Good job.
       {{else}}
         build {{build.number}} failed. Fix me please.
-      {{/success}}```
+      {{/success}}
+      ```
 
 
 trigger:
