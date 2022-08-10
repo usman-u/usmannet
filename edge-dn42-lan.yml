@@ -2,10 +2,10 @@ routers:
   - name: "edge-dn42-lan"
     SSH_conf:
       hostname: "edge.dn42.lan"
-      username: "usman"
-      password: ""
-      use_keys: True
-      key_location: "C:\\Users\\Usman\\.ssh\\id_rsa"
+      username: "test"
+      password: "test"
+      use_keys: False
+      key_location: ""
       secret: ""
     
     firewalls:
@@ -245,7 +245,7 @@ routers:
 
       - name: "wg18"
         type: "wireguard"
-        state: "present"
+        state: "deleted"
         ip: "172.22.132.179"
         mask: "/31"
         desc: "p2p_iBGP_CA"
@@ -412,22 +412,25 @@ routers:
           - prefix: "172.20.0.0/14"
             length: "le 32"
 
+    ospf:
+      ospf_redistribute:
+        - redistribute: "bgp"
+          # route_map: ""
+          state: "present"
 
-    # ospf_pid: "1"
-    # ospf_routerid: "1.1.1.1"
-    # use_ospf_routerid: "yes"
-    ospf_networks:
-      - subnet: "10.100.100.0"
-        mask: "/24"
-        area: "0"
-        state: "present"
-      - subnet: "172.22.132.176"
-        mask: "31"
-        area: "0"
-        state: "present"
-      - subnet: "172.22.132.168"
-        mask: "/30"
-        area: "0"
-        state: "present"
-    
-    # TODO: add bgp redistribute
+      ospf_parameters:
+        use_routerid: False
+        routerid: ""
+      ospf_networks:
+        - subnet: "10.100.100.0"
+          mask: "/24"
+          area: "0"
+          state: "present"
+        - subnet: "172.22.132.176"
+          mask: "/31"
+          area: "0"
+          state: "present"
+        - subnet: "172.22.132.168"
+          mask: "/30"
+          area: "0"
+          state: "present"
