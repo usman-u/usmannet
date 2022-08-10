@@ -3,47 +3,11 @@ type: docker
 name: USMAN.NET CI/CD
 
 steps:
-- name: discord notification start
-  image: appleboy/drone-discord
-  settings:
-    webhook_id: 
-      from_secret: discord_webhook_id
-    webhook_token: 
-      from_secret: discord_webhook_token
-
-    message: >
-      ```
-      Event:  {{ build.event }} \n
-      Status: {{ build.status }} \n
-      Repo:   {{ build.name }} {{ build.author}} \n
-      Author: {{ build.author }} \n
-      Started:{{ build.started }} \n
-      Link:   {{ build.link }} ```
-      
-      
-
-# - name: Install and deploy
-#   image: python
-#   commands:
-  # - pip3 install -r requirements.txt
-  # - python3 main.py
-
-- name: discord notification end
-  image: appleboy/drone-discord
-  settings:
-    webhook_id: 
-      from_secret: discord_webhook_id
-    webhook_token: 
-      from_secret: discord_webhook_token
-    message: >
-      ```
-      {{#success build.status}} \n
-        build {{build.number}} succeeded. Good job.
-      {{else}}
-        build {{build.number}} failed. Fix me please.
-      {{/success}}
-      ```
-
+- name: Install and deploy
+  image: python
+  commands:
+  - pip3 install -r requirements.txt
+  - python3 main.py
 
 trigger:
   branch:
