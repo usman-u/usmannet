@@ -11,7 +11,7 @@ devices:
     interfaces:
     - name: "g 0/1"
       state: "present"
-      desc: "RaspPi_Server"
+      desc: "RaspPi-Server"
       routed: False
       mode: "access"
       access_vlan: "10"
