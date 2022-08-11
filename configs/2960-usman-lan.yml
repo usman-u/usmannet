@@ -17,7 +17,6 @@ devices:
       access_vlan: "10"
       spanning_tree: "portfast"
 
-
     - name: "g 0/2"
       state: "present"
       desc: "qbitHPDesktop"
@@ -28,7 +27,7 @@ devices:
 
     - name: "g 0/3"
       state: "present"
-      desc: "NAS"
+      desc: "WD-NAS"
       routed: False
       mode: "access"
       access_vlan: "10"
@@ -45,7 +44,7 @@ devices:
 
     - name: "g 0/17"
       state: "present"
-      desc: "PC"
+      desc: "RU-PC"
       routed: False
       mode: "access"
       access_vlan: "30"
