@@ -13,3 +13,7 @@ steps:
     branch:
     - master
     - main
+
+trigger:
+  exclude:
+    - pull_request
