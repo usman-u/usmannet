@@ -3,18 +3,23 @@ type: docker
 name: USMAN.NET CI/CD
 
 steps:
-- name: Install and deploy
+- name: Install Requirements
   image: python
   commands:
   - pip3 install -r requirements.txt
-  - python3 main.py
 
+- name: Run Linter Tests
+  image: python
+  commands:
+  - python3 hello.py
+
+- name: Deploy
+  image: python
+  commands:
+  - python3 main.py
   when:
     branch:
-    - master
     - main
-    exclude:
-    - pull_request
 
 trigger:
   exclude:
