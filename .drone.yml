@@ -9,7 +9,7 @@ steps:
   - pip3 install -r requirements.txt
   - python3 main.py
 
-trigger:
-  branch:
-    exclude:
-    - pull_request
+  when:
+    branch:
+    - master
+    - main

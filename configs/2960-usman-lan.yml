@@ -9,6 +9,13 @@ devices:
       secret: "test"
 
     interfaces:
+    - name: "vlan10"
+      state: "present"
+      desc: "RaspPi-Server"
+      routed: True
+      ip: "10.0.10.66"
+      mask: "255.255.255.0"
+
     - name: "g 0/1"
       state: "present"
       desc: "RaspPi-Server"
