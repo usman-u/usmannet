@@ -11,7 +11,7 @@ devices:
     interfaces:
     - name: "vlan10"
       state: "present"
-      desc: "MGMT-INT"
+      desc: "MGMT"
       routed: True
       ip: "10.0.10.66"
       mask: "255.255.255.0"
