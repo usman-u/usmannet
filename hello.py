@@ -1,0 +1,1 @@
+print ("In Place of Linter Tests")
