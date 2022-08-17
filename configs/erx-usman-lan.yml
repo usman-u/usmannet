@@ -1,0 +1,89 @@
+routers:
+  - name: "erx-usman-lan"
+    SSH_conf:
+      hostname: "erx.usman.lan"
+      username: "test"
+      password: "test"
+      use_keys: False
+      key_location: ""
+      secret: ""
+
+    interfaces:
+      - name: "lo"
+        type: "loopback"
+        state: "present"
+        ip: "10.100.100.1"
+        mask: "/32"
+        desc: "MGMT"
+
+      - name: "eth1"
+        type: "ethernet"
+        state: "present"
+        ip: ""
+        mask: ""
+        desc: ""
+
+      - name: "eth2"
+        type: "ethernet"
+        state: "present"
+        ip: ""
+        mask: ""
+        desc: ""
+
+      - name: "eth3"
+        type: "ethernet"
+        state: "present"
+        ip: "172.16.0.1"
+        mask: "/24"
+        desc: "Backup-MGMT"
+      
+      - name: "eth4"
+        type: "ethernet"
+        state: "present"
+        ip: ""
+        mask: ""
+        desc: ""
+
+        vifs:
+          - number: 1
+            state: "present"
+            ip: "10.0.1.1"
+            mask: "/24"
+            desc: "Main"
+
+          - number: 10
+            state: "present"
+            ip: "10.0.10.1"
+            mask: "/24"
+            desc: "Servers"
+
+          - number: 20
+            state: "present"
+            ip: "10.0.20.1"
+            mask: "/24"
+            desc: "IoT"
+
+          - number: 30
+            state: "present"
+            ip: "10.0.30.1"
+            mask: "/24"
+            desc: "Home"
+
+      - name: "wg0"
+        type: "wireguard"
+        state: "present"
+        ip: "10.13.13.1"
+        mask: "/24"
+        desc: "WG Remote Access"
+        port: "51820"
+        private_key_path: "/config/auth/remote_access.key"
+        route_allowed_ips: "true"
+        wg_peers:
+          - name: "usman-phone"
+            allowedips: "10.13.13.2/32"
+            pubkey: "XzXsLlbdFDGzK10jFxySz3Qbk8ekY7YsASPAb+QprAc="
+            # keepalive: "25"
+
+          - name: "usman-laptop"
+            allowedips: "10.13.13.3/32"
+            pubkey: "w0zDaNJYjI3lwyk/MI0iDzGJe3b7ImAGSPK2pZhtljw="
