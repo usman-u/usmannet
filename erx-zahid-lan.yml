@@ -1,0 +1,17 @@
+routers:
+  - name: "erx-zahid-lan"
+    SSH_conf:
+      hostname: "erx.zahid.lan"
+      username: "test"
+      password: "test"
+      use_keys: False
+      key_location: ""
+      secret: ""
+ 
+    interfaces:
+      - name: "lo"
+        type: "loopback"
+        state: "present"
+        ip: "10.100.100.2"
+        mask: "/32"
+        desc: "MGMT"
