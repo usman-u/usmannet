@@ -17,6 +17,17 @@ steps:
     branch:
     - main
 
+- name: Health Checks
+  image: python
+  commands:
+  - pip3 install -r requirements.txt
+  - python3 vyos_health_check.py
+  when:
+    branch:
+    - main
+
+
+
 trigger:
   exclude:
     - pull_request

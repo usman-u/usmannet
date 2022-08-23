@@ -243,18 +243,18 @@ routers:
             endpoint: "chi-r02.pub.joelheaps.com:50013"
             pubkey: "lVJwCvlEO3J9dWSe0bRaReYOaTtq1heUtQgQK7NnEn8="
 
-      - name: "wg18"
+      - name: "wg19"
         type: "wireguard"
-        state: "deleted"
-        ip: "172.22.132.179"
+        state: "present"
+        ip: "172.22.132.180"
         mask: "/31"
-        desc: "p2p_iBGP_CA"
-        port: "51730"
+        desc: "p2p_iBGP_AWS"
+        port: "51880"
         wg_peers:
-          - name: "CA"
+          - name: "AWS"
             allowedips: "0.0.0.0/0"
-            endpoint: "194.147.71.143:51731"
-            pubkey: "tT41B5fOSLrp9Q1ja3MaXxqa0MLfrvtalyvK2zZ5xTQ="
+            pubkey: "EU7d1zcqChexevMgNW/jBedMIo7/a20Z11u/cWD8sCU="
+
 
     bgpasn: "4242421869"
 
@@ -336,7 +336,12 @@ routers:
             action: "export"
             state: "present"
 
-
+      #  AWS iBGP
+      - ip: "172.22.132.181"
+        state: "present"
+        remote_as: "4242421869"
+        ebgp_multihop: "250"
+        desc: "AWS"
 
     static:
       - type: "interface-route"
