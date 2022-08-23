@@ -71,7 +71,7 @@ routers:
 
           - number: 42
             state: "present"
-            ip: "172.22.132.184"
+            ip: "172.22.132.185"
             mask: "/29"
             desc: "DN42 Subnet"
 
