@@ -69,6 +69,12 @@ routers:
             mask: "/24"
             desc: "Home"
 
+          - number: 42
+            state: "present"
+            ip: "172.22.132.184"
+            mask: "29"
+            desc: "DN42 Subnet"
+
       - name: "wg0"
         type: "wireguard"
         state: "present"

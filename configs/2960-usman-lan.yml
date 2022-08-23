@@ -8,6 +8,11 @@ devices:
       key_location: ""
       secret: "test"
 
+    vlans:
+    - id: "42"
+      name: "DN42 Public Subnet"
+      state: "present"
+
     interfaces:
     - name: "vlan10"
       state: "present"
@@ -47,6 +52,14 @@ devices:
       routed: False
       mode: "access"
       access_vlan: "20"
+      spanning_tree: "portfast"
+
+    - name: "g 0/5"
+      state: "present"
+      desc: "HP-DN42-Public-Host"
+      routed: False
+      mode: "access"
+      access_vlan: "42"
       spanning_tree: "portfast"
 
     - name: "g 0/17"
