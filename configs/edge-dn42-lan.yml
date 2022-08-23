@@ -94,11 +94,11 @@ routers:
             protocol: "udp"
 
 
-          - rule_no: "80"
+          - rule_no: "85"
             state: "present"
             action: "accept"
-            desc: "accept wg from CA iBGP"
-            dest: "port 51730"
+            desc: "accept wg from AWS iBGP"
+            dest: "port 51880"
             protocol: "udp"
 
           - rule_no: "90"
