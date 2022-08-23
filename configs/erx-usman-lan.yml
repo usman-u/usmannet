@@ -73,7 +73,7 @@ routers:
             state: "present"
             ip: "172.22.132.185"
             mask: "/29"
-            desc: "DN42 Subnet"
+            desc: "DN42 Subnet Public"
 
       - name: "wg0"
         type: "wireguard"
