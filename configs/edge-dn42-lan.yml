@@ -410,7 +410,7 @@ routers:
 
       - type: "interface-route"
         network: "172.20.222.224/32"
-        nexthop: "wg19"
+        nexthop: "wg20"
         distance: ""
         state: "present"
         desc: "northrend"
