@@ -14,20 +14,19 @@ routers:
         state: "present"
         default_action: "drop"
         rules:
-          - rule_no: "60"
+          - rule_no: "97"
             state: "present"
             action: "accept"
-            desc: "Allow ICMP to zahid-erx test"
-            dest: "address 172.23.132.173"
             protocol: "icmp"
+            desc: "Accept ICMP to all"
 
-          - rule_no: "65"
+          - rule_no: "97"
             state: "present"
             action: "drop"
             desc: "Block Traffic to Operator Assigned IP Space"
             dest: "address 172.22.132.160/27"
 
-          - rule_no: "70"
+          - rule_no: "98"
             state: "present"
             action: "accept"
             desc: "Allow Peer Transit"
@@ -256,6 +255,24 @@ routers:
             pubkey: "EU7d1zcqChexevMgNW/jBedMIo7/a20Z11u/cWD8sCU="
 
 
+      - name: "wg20"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.166"
+        mask: "/32"
+        desc: "p2p_northrend"
+        port: "51877"
+        wg_peers:
+          - name: "Northrend"
+            allowedips: "0.0.0.0/0"
+            pubkey: "hWa+vjUl+y60WmjhcT2/yamSgcSEOg692M4OcT6L5j4="
+            endpoint: "ro-proxy.nodes.northrend.net:53326"
+        firewall:
+          - name: "Tunnels_In_v4"
+            direction: "in"
+          - name: "Tunnels_Local_v4"
+            direction: "local"
+
     bgpasn: "4242421869"
 
     bgp_prefixes:
@@ -343,6 +360,21 @@ routers:
         ebgp_multihop: "250"
         desc: "AWS"
 
+      - ip: "172.20.222.224"
+        state: "present"
+        remote_as: "4242423192"
+        ebgp_multihop: "250"
+        desc: "northrend"
+        route_maps:
+          - route_map: "DN42-ROA"
+            action: "import"
+            state: "present"
+          - route_map: "DN42-ROA"
+            action: "export"
+            state: "present"
+
+
+
     static:
       - type: "interface-route"
         network: "172.20.16.141/32"
@@ -375,6 +407,13 @@ routers:
         distance: ""
         state: "present"
         desc: "joel"
+
+      - type: "interface-route"
+        network: "172.20.222.224/32"
+        nexthop: "wg19"
+        distance: ""
+        state: "present"
+        desc: "northrend"
 
     route_maps:
       - name: "DN42-ROA"
