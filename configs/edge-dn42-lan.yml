@@ -14,7 +14,7 @@ routers:
         state: "present"
         default_action: "drop"
         rules:
-          - rule_no: "97"
+          - rule_no: "50"
             state: "present"
             action: "accept"
             protocol: "icmp"
