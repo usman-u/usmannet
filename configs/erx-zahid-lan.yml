@@ -31,7 +31,7 @@ routers:
             allowedips: "0.0.0.0/0"
             pubkey: "aQO79GVItRcpwkakFSNmAeHaCI7dO/ys3UNyDNnd304="
 
-          - name: "test-remote"
+          - name: "usman-laptop"
             allowedips: "10.10.69.5/32"
             pubkey: "MR7lZBpc4X58i0O8xt4j3bpqU/G0BhyVxP+0DK3EZGo="
 
