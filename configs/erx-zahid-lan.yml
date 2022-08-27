@@ -15,3 +15,46 @@ routers:
         ip: "10.100.100.2"
         mask: "/32"
         desc: "MGMT"
+
+      - name: "wg10"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.173"
+        mask: "/30"
+        desc: "p2p_usman"
+        port: "51826"
+        # public_key: GFeyDtmAqToUd2xiQ6nPXKG2/WVvZrhaD5rlSwNpw2Y=
+        private_key_path: "/config/auth/private.key"
+        route_allowed_ips: "false"
+        wg_peers:
+          - name: "p2p_usman"
+            allowedips: "0.0.0.0/0"
+            pubkey: "aQO79GVItRcpwkakFSNmAeHaCI7dO/ys3UNyDNnd304="
+
+          - name: "test-remote"
+            allowedips: "10.10.69.5/32"
+            pubkey: "MR7lZBpc4X58i0O8xt4j3bpqU/G0BhyVxP+0DK3EZGo="
+
+      - name: "wg11"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.176"
+        mask: "/31"
+        desc: "p2p_dn42_edge"
+        port: "51891"
+        # public_key: GFeyDtmAqToUd2xiQ6nPXKG2/WVvZrhaD5rlSwNpw2Y=
+        private_key_path: "/config/auth/private.key"
+        route_allowed_ips: "false"
+        wg_peers:
+          - name: "p2p_dn42_edge"
+            allowedips: "0.0.0.0/0"
+            pubkey: "qwjXj/6R9ThUnqeOAYN+MxM6CbIgzjS8WFDdXuyEpHY="
+            endpoint: "dn42.usman.network:51893"
+
+    # static route for usman peer (on wg10)
+    static:
+      - type: "interface-route"
+        network: "10.10.69.5/32"
+        nexthop: "wg10"
+        distance: ""
+        state: "present"
