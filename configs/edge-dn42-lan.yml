@@ -20,6 +20,13 @@ routers:
             protocol: "icmp"
             desc: "Accept ICMP to all"
 
+          - rule_no: "60"
+            state: "present"
+            action: "accept"
+            protocol: "tcp_udp"
+            dest: "address 172.22.132.186"
+            desc: "Allow web traffic to blog server"
+
           - rule_no: "97"
             state: "present"
             action: "drop"
