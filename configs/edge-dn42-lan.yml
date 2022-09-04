@@ -299,6 +299,7 @@ routers:
           - name: "iBGP_uk1"
             allowedips: "0.0.0.0/0"
             pubkey: "9Cw2sSRMATDxQzG4+Je/O1pFqJ64xsvlnfmknHb2dhE="
+            endpoint: "uk1.dn42.usman.network:51863"
 
     bgpasn: "4242421869"
     bgp_prefixes:
