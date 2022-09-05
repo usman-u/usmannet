@@ -34,6 +34,10 @@ routers:
           - name: "usman-laptop"
             allowedips: "10.10.69.5/32"
             pubkey: "MR7lZBpc4X58i0O8xt4j3bpqU/G0BhyVxP+0DK3EZGo="
+            
+           - name: "zahid-laptop"
+             allowedips: "0.0.0.0/0"
+             pubkey: "KSq+/QZba6iHO6ovjc4s2teTQ4pX+b/GlljqVtu1lkw="
 
       - name: "wg11"
         type: "wireguard"
