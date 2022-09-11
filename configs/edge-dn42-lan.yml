@@ -512,3 +512,7 @@ routers:
           mask: "/30"
           area: "0"
           state: "present"
+        - subnet: "172.22.132.162"
+          mask: "/31"
+          area: "0"
+          state: "present"
