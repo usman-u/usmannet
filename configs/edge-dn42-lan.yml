@@ -257,6 +257,24 @@ routers:
             endpoint: "chi-r02.pub.joelheaps.com:50013"
             pubkey: "lVJwCvlEO3J9dWSe0bRaReYOaTtq1heUtQgQK7NnEn8="
 
+      - name: "wg719"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.166"
+        mask: "/32"
+        desc: "lumota"
+        port: "51179"
+        firewall:
+          - name: "Tunnels_In_v4"
+            direction: "in"
+          - name: "Tunnels_Local_v4"
+            direction: "local"
+        wg_peers:
+          - name: "lumota"
+            allowedips: "0.0.0.0/0"
+            endpoint: "de-fra.dn42.lutoma.org:42800"
+            pubkey: "/mqP3+UPBSzyMT68EysEp4AbPymc8MMufYjH8lBNVk0="
+
       - name: "wg19"
         type: "wireguard"
         state: "present"
@@ -380,6 +398,19 @@ routers:
             action: "export"
             state: "present"
 
+      - ip: "172.22.119.1"
+        state: "present"
+        remote_as: "64719"
+        ebgp_multihop: "250"
+        desc: "lutoma"
+        route_maps:
+          - route_map: "DN42-ROA"
+            action: "import"
+            state: "present"
+          - route_map: "DN42-ROA"
+            action: "export"
+            state: "present"
+
       #  AWS iBGP
       - ip: "172.22.132.181"
         state: "present"
@@ -448,6 +479,13 @@ routers:
         distance: ""
         state: "present"
         desc: "northrend"
+
+      - type: "interface-route"
+        network: "172.22.119.1/32"
+        nexthop: "wg719"
+        distance: ""
+        state: "present"
+        desc: "lutoma"
 
     route_maps:
       - name: "DN42-ROA"
