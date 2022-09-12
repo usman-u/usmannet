@@ -13,7 +13,6 @@ edge = net_automation.Vyos(
     "",
     True,
     r"c:\Users\Usman\.ssh\id_rsa",
-    ""
 )
 
 edge = net_automation.Vyos()
