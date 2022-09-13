@@ -168,7 +168,7 @@ routers:
     
       - name: "wg13"
         type: "wireguard"
-        state: "present"
+        state: "disabled"
         ip: "172.22.132.166"
         mask: "/32"
         desc: "DN42_Kioubit"
@@ -334,7 +334,7 @@ routers:
     bgp_peers:
 
       - ip: "172.20.53.104"
-        state: "absent"
+        state: "present"
         remote_as: "4242423914"
         ebgp_multihop: "255"
         desc: "kioubit"
