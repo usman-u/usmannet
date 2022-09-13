@@ -168,7 +168,7 @@ routers:
     
       - name: "wg13"
         type: "wireguard"
-        state: "present"
+        state: "absent"
         ip: "172.22.132.166"
         mask: "/32"
         desc: "DN42_Kioubit"

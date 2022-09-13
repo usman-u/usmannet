@@ -17,5 +17,7 @@ edge = net_automation.Vyos(
 )
 
 print (edge.init_ssh())
-print (edge.get_bgp_neighbors())
+print ("----------------- Interfaces -----------------")
 print (edge.get_interfaces())
+print ("----------------- BGP Neighb -----------------")
+print (edge.get_bgp_neighbors())
