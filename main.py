@@ -8,14 +8,13 @@ net_automation.Vyos.deploy_yaml("configs/edge-dn42-lan.yml")
 
 print ("Diagnostics:")
 edge = net_automation.Vyos(
+    "vyos",
     "edge.dn42.lan",
     "test",
     "test",
     False,
     "",
 )
-
-edge = net_automation.Vyos()
 
 print (edge.init_ssh())
 print (edge.get_bgp_neighbors())
