@@ -56,7 +56,7 @@ devices:
 
     - name: "g 0/5"
       state: "present"
-      desc: "HP-DN42-Public-Host"
+      desc: "Raspberry-DN42-Web-Server"
       routed: False
       mode: "access"
       access_vlan: "42"
