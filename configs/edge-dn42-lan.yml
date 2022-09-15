@@ -434,6 +434,9 @@ routers:
           - route_map: "DN42-ROA"
             action: "export"
             state: "present"
+          - route_map: "aspath"
+            action: "export"
+            state: "present"
 
       - ip: "172.22.119.1"
         state: "present"
