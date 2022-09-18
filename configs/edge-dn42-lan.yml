@@ -107,6 +107,12 @@ routers:
             dest: "port 51720"
             protocol: "udp"
 
+          - rule_no: "71"
+            state: "present"
+            action: "accept"
+            desc: "accept from wg hedgehog"
+            dest: "port 51459"
+            protocol: "udp"
 
           - rule_no: "85"
             state: "present"
@@ -282,6 +288,24 @@ routers:
             endpoint: "de-fra.dn42.lutoma.org:42800"
             pubkey: "/mqP3+UPBSzyMT68EysEp4AbPymc8MMufYjH8lBNVk0="
 
+      - name: "wg459"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.166"
+        mask: "/32"
+        desc: "hedgehog"
+        port: "51459"
+        firewall:
+          - name: "Tunnels_In_v4"
+            direction: "in"
+          - name: "Tunnels_Local_v4"
+            direction: "local"
+        wg_peers:
+          - name: "hedgehog"
+            allowedips: "0.0.0.0/0"
+            endpoint: "dn42.thehedgehog.me:494"
+            pubkey: "e6kp9sca4XIzncKa9GEQwyOnMjje299Xg9ZdgXWMwHg="
+
       - name: "wg19"
         type: "wireguard"
         state: "present"
@@ -450,6 +474,19 @@ routers:
             action: "export"
             state: "present"
 
+      - ip: "172.20.43.96"
+        state: "present"
+        remote_as: "4242422459"
+        ebgp_multihop: "250"
+        desc: "hedgehog"
+        route_maps:
+          - route_map: "DN42-ROA"
+            action: "import"
+            state: "present"
+          - route_map: "DN42-ROA"
+            action: "export"
+            state: "present"
+
       #  AWS iBGP (status)
       - ip: "172.22.132.181"
         state: "present"
@@ -532,6 +569,13 @@ routers:
         state: "present"
         desc: "iedon"
 
+      - type: "interface-route"
+        network: "172.20.43.96/32"
+        nexthop: "wg459"
+        distance: ""
+        state: "present"
+        desc: "hedgehog"
+
     route_maps:
       - name: "DN42-ROA"
         desc: "DN42RouteMap"
@@ -573,29 +617,29 @@ routers:
           - prefix: "172.20.0.0/14"
             length: "le 32"
 
-    ospf:
-      ospf_redistribute:
-        - redistribute: "bgp"
-          # route_map: ""
-          state: "present"
+    # ospf:
+    #   ospf_redistribute:
+    #     - redistribute: "bgp"
+    #       # route_map: ""
+    #       state: "present"
 
-      ospf_parameters:
-        use_routerid: False
-        routerid: ""
-      ospf_networks:
-        - subnet: "10.100.100.0"
-          mask: "/24"
-          area: "0"
-          state: "present"
-        - subnet: "172.22.132.176"
-          mask: "/31"
-          area: "0"
-          state: "present"
-        - subnet: "172.22.132.168"
-          mask: "/30"
-          area: "0"
-          state: "present"
-        - subnet: "172.22.132.162"
-          mask: "/31"
-          area: "0"
-          state: "present"
+    #   ospf_parameters:
+    #     use_routerid: False
+    #     routerid: ""
+    #   ospf_networks:
+    #     - subnet: "10.100.100.0"
+    #       mask: "/24"
+    #       area: "0"
+    #       state: "present"
+    #     - subnet: "172.22.132.176"
+    #       mask: "/31"
+    #       area: "0"
+    #       state: "present"
+    #     - subnet: "172.22.132.168"
+    #       mask: "/30"
+    #       area: "0"
+    #       state: "present"
+    #     - subnet: "172.22.132.162"
+    #       mask: "/31"
+    #       area: "0"
+    #       state: "present"
