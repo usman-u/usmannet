@@ -128,6 +128,13 @@ routers:
             dest: "port 51862"
             protocol: "udp"
 
+          - rule_no: "88"
+            state: "present"
+            action: "accept"
+            desc: "accept wg from us-west1 iBGP (azure)"
+            dest: "port 51864"
+            protocol: "udp"
+
           - rule_no: "90"
             state: "present"
             action: "accept"
@@ -368,6 +375,19 @@ routers:
             pubkey: "9Cw2sSRMATDxQzG4+Je/O1pFqJ64xsvlnfmknHb2dhE="
             endpoint: "uk1-lon.dn42.usman.network:51863"
 
+      - name: "wg22"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.164"
+        mask: "/31"
+        desc: "p2p_iBGP_us-west1.dn42.usman.network"
+        port: "51864"
+        wg_peers:
+          - name: "us-west1_iBGP"
+            allowedips: "0.0.0.0/0"
+            pubkey: "0aDKyiSNVwuQLNqZs7+9CeLIkFt7WkpQZhgBodLTtQQ="
+            endpoint: "us-west1.dn42.usman.network:51865"
+
     bgpasn: "4242421869"
     bgp_prefixes:
       - prefix: "172.22.132.160"
@@ -500,6 +520,12 @@ routers:
         remote_as: "4242421869"
         ebgp_multihop: "250"
         desc: "uk1_iBGP"
+
+      - ip: "172.22.132.165"
+        state: "present"
+        remote_as: "4242421869"
+        ebgp_multihop: "250"
+        desc: "us-west1_iBGP"
 
       - ip: "172.20.222.224"
         state: "present"
