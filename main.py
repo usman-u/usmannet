@@ -20,8 +20,8 @@ print ("----------------- Interfaces -----------------")
 print (edge.get_interfaces())
 time.sleep(15)
 print ("----------------- BGP Neighb -----------------")
-print (edge.get_bgp_neighbors())
 
-print (edge.run_ping("172.23.0.53", 5))
 
 print (edge.custom_command("sudo wg"))
+
+print (edge.run_ping("172.23.0.53", 5))

@@ -129,10 +129,18 @@ routers:
             protocol: "udp"
 
           - rule_no: "88"
-            state: "present"
+            state: "deleted"
             action: "accept"
             desc: "accept wg from us-west1 iBGP (azure)"
             dest: "port 51864"
+            protocol: "udp"
+
+
+          - rule_no: "89"
+            state: "present"
+            action: "accept"
+            desc: "accept wg from nullplane"
+            dest: "port 51591"
             protocol: "udp"
 
           - rule_no: "90"
@@ -388,6 +396,26 @@ routers:
             pubkey: "0aDKyiSNVwuQLNqZs7+9CeLIkFt7WkpQZhgBodLTtQQ="
             endpoint: "us-west1.dn42.usman.network:51865"
 
+      - name: "wg591"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.166"
+        mask: "/31"
+        desc: "p2p_nullpointer_chi_il"
+        port: "51591"
+        wg_peers:
+          - name: "p2p_nullpointer_chi_il"
+            allowedips: "0.0.0.0/0"
+            pubkey: "oKhq3iDYFkwuyG611qCgbo6UzRm3wEiSn2CwJQn4QRA="
+            endpoint: "rtr1.ord.nullplane.net:21869"
+        firewall:
+          - name: "Tunnels_In_v4"
+            direction: "in"
+          - name: "Tunnels_Local_v4"
+            direction: "local"
+        
+        # TODO: add localpref stuff
+
     bgpasn: "4242421869"
     bgp_prefixes:
       - prefix: "172.22.132.160"
@@ -540,6 +568,18 @@ routers:
             action: "export"
             state: "present"
 
+      - ip: "172.21.91.65"
+        state: "present"
+        remote_as: "4242420591"
+        ebgp_multihop: "250"
+        desc: "nullplane_chi_il"
+        route_maps:
+          - route_map: "DN42-ROA"
+            action: "import"
+            state: "present"
+          - route_map: "DN42-ROA"
+            action: "export"
+            state: "present"
 
     static:
       - type: "interface-route"
@@ -602,6 +642,13 @@ routers:
         state: "present"
         desc: "hedgehog"
 
+      - type: "interface-route"
+        network: "172.21.91.65/32"
+        nexthop: "wg591"
+        distance: ""
+        state: "present"
+        desc: "nullplane_chi_il"
+
     route_maps:
       - name: "DN42-ROA"
         desc: "DN42RouteMap"
@@ -645,27 +692,31 @@ routers:
 
     # ospf:
     #   ospf_redistribute:
-    #     - redistribute: "bgp"
+    #     # - redistribute: "bgp"
     #       # route_map: ""
-    #       state: "present"
+    #       # state: "absent"
 
     #   ospf_parameters:
     #     use_routerid: False
     #     routerid: ""
+
     #   ospf_networks:
     #     - subnet: "10.100.100.0"
     #       mask: "/24"
-    #       area: "0"
+    #       area: "1"
     #       state: "present"
+
     #     - subnet: "172.22.132.176"
     #       mask: "/31"
     #       area: "0"
     #       state: "present"
+
     #     - subnet: "172.22.132.168"
     #       mask: "/30"
     #       area: "0"
     #       state: "present"
+
     #     - subnet: "172.22.132.162"
     #       mask: "/31"
-    #       area: "0"
+    #       area: "1"
     #       state: "present"
