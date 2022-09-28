@@ -51,7 +51,7 @@ devices:
       desc: "Powerline-TV"
       routed: False
       mode: "access"
-      access_vlan: "20"
+      access_vlan: "30"
       spanning_tree: "portfast"
 
     - name: "g 0/5"
