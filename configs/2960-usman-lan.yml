@@ -62,6 +62,14 @@ devices:
       access_vlan: "42"
       spanning_tree: "portfast"
 
+    - name: "g 0/6"
+      state: "present"
+      desc: "plex-usman-lan"
+      routed: False
+      mode: "access"
+      access_vlan: "10"
+      spanning_tree: "portfast"
+
     - name: "g 0/17"
       state: "present"
       desc: "RU-PC"
