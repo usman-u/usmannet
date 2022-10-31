@@ -1,7 +1,7 @@
 routers:
   - name: "erx-zahid-lan"
     SSH_conf:
-      hostname: "erx.zahid.lan"
+      hostname: "10.147.20.230"
       username: "test"
       password: "test"
       use_keys: False
