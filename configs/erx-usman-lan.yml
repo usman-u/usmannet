@@ -6,7 +6,6 @@ routers:
       password: "test"
       use_keys: False
       key_location: ""
-      secret: ""
 
     interfaces:
       - name: "lo"
@@ -93,3 +92,19 @@ routers:
           - name: "usman-laptop"
             allowedips: "10.13.13.3/32"
             pubkey: "w0zDaNJYjI3lwyk/MI0iDzGJe3b7ImAGSPK2pZhtljw="
+
+      - name: "wg10"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.174"
+        mask: "/30"
+        desc: "p2p_zahid"
+        port: "51827"
+        private_key_path: "/config/auth/private.key"
+        route_allowed_ips: "false"
+        wg_peers:
+          - name: "p2p_zahid"
+            allowedips: "0.0.0.0/0"
+            pubkey: "Nta1LfIKFcZmvUe9i1mcjN46ddF/duLcQu7qM5TlrQI="
+            endpoint: "86.144.92.155:51826"
+            keepalive: "25"

@@ -23,7 +23,7 @@ routers:
         mask: "/30"
         desc: "p2p_usman"
         port: "51826"
-        # public_key: GFeyDtmAqToUd2xiQ6nPXKG2/WVvZrhaD5rlSwNpw2Y=
+        # public_key: Nta1LfIKFcZmvUe9i1mcjN46ddF/duLcQu7qM5TlrQI=
         private_key_path: "/config/auth/private.key"
         route_allowed_ips: "false"
         wg_peers:
@@ -49,7 +49,7 @@ routers:
           - name: "p2p_dn42_edge"
             allowedips: "0.0.0.0/0"
             pubkey: "qwjXj/6R9ThUnqeOAYN+MxM6CbIgzjS8WFDdXuyEpHY="
-            endpoint: "dn42.usman.network:51893"
+            endpoint: "fr-lil1.dn42.usman.network:51893"
 
     # static route for usman peer (on wg10)
     static:
