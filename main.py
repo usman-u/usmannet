@@ -41,4 +41,4 @@ def verify_dn42_peerings():
     print (edge.run_ping("172.23.0.53", 5))
 
 
-verify_cicso_switchports()
+# verify_cicso_switchports()

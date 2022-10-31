@@ -70,6 +70,14 @@ devices:
       access_vlan: "10"
       spanning_tree: "portfast"
 
+    - name: "g 0/7"
+      state: "present"
+      desc: "mcast-testing"
+      routed: False
+      mode: "access"
+      access_vlan: "10"
+      spanning_tree: "portfast"
+
     - name: "g 0/17"
       state: "present"
       desc: "RU-PC"
