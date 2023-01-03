@@ -8,6 +8,9 @@ steps:
   commands:
   - pip3 install -r requirements.txt
   - python3 dry_run.py
+  environment:
+    PASSWORD:
+      from_secret: FRLIL1_PRIVKEY
 
 - name: Deploy
   image: python
