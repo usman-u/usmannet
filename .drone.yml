@@ -3,12 +3,13 @@ type: docker
 name: USMAN.NET CI/CD
 
 steps:
-- name: Run Linter Tests
+- name: Dry Run
   image: python
   commands:
-  - python3 hello.py
+  - pip3 install -r requirements.txt
+  - python3 dry_run.py
 
-- name: Install Requirements and Deploy
+- name: Deploy
   image: python
   commands:
   - pip3 install -r requirements.txt

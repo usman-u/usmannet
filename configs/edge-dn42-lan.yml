@@ -20,13 +20,12 @@ routers:
             protocol: "icmp"
             desc: "Accept ICMP to all"
 
-          - rule_no: "60"
-            state: "present"
-            action: "accept"
-            protocol: "tcp_udp"
-            # dest: 
-            #   - "address 172.22.132.186"
-            desc: "Allow web traffic to blog server"
+          # - rule_no: "60"
+          #   state: "present"
+          #   action: "accept"
+          #   protocol: "tcp_udp"
+          #   dest: "address 172.22.132.186"
+          #   desc: "Allow web traffic to blog server"
 
           - rule_no: "97"
             state: "present"
@@ -34,12 +33,12 @@ routers:
             desc: "Block Traffic to Operator Assigned IP Space"
             dest: "address 172.22.132.160/27"
 
-          - rule_no: "98"
-            state: "present"
-            action: "accept"
-            desc: "Allow Peer Transit"
-            dest: "group network-group Allowed-Transit-v4"
-            source: "group network-group 'Allowed-Transit-v4'"
+          # - rule_no: "98"
+          #   state: "present"
+          #   action: "accept"
+          #   desc: "Allow Peer Transit"
+          #   dest: "group network-group Allowed-Transit-v4"
+          #   source: "group network-group 'Allowed-Transit-v4'"
 
           - rule_no: "99"
             state: "present"
@@ -160,12 +159,11 @@ routers:
         ip: "dhcp"
         mask: ""
         desc: "WAN"
-
         firewall:
+          - name: "WAN_Local"
+            direction: "local"
           # - name: "WAN_In" # TODO
           #   direction: "in"
-          - name: "Tunnels_Local_v4"
-            direction: "WAN_Local"
 
       - name: "lo"
         type: "loopback"
@@ -174,31 +172,40 @@ routers:
         mask: "/32"
         desc: "fr-lil1"
 
-    #   - name: "wg11"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.177"
-    #     mask: "/31"
-    #     desc: "p2p_zahid"
-    #     port: "51893"
-    #     wg_peers:
-    #       - name: "zahid"
-    #         allowedips: "0.0.0.0/0"
-    #         endpoint: "91.135.14.109:51891"
-    #         pubkey: "GFeyDtmAqToUd2xiQ6nPXKG2/WVvZrhaD5rlSwNpw2Y="
+    wireguard_interfaces:
+      # - name: "wg11"
+      #   type: "wireguard"
+      #   state: "present"
+      #   ip: "172.22.132.177"
+      #   mask: "/31"
+      #   desc: "p2p_zahid"
+      #   port: "51893"
+      #   wg_peers:
+      #     - name: "zahid"
+      #       allowedips: "0.0.0.0/0"
+      #       endpoint: "91.135.14.109:51891"
+      #       pubkey: "GFeyDtmAqToUd2xiQ6nPXKG2/WVvZrhaD5rlSwNpw2Y="
 
-    #   - name: "wg12"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.170"
-    #     mask: "/30"
-    #     desc: "p2p_usman"
-    #     port: "51890"
-    #     wg_peers:
-    #       - name: "erx"
-    #         allowedips: "0.0.0.0/0"
-    #         endpoint: "home.usman.network:51891"
-    #         pubkey: "UbhSaUPiASdfKB6G/Jz6JHeSM2zp+MJ2THWyUVoyBUY="
+      - name: "wg12"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.170"
+        mask: "/30"
+        desc: "p2p_usman"
+        privkey: "FRLIL1_PRIVKEY" # dotenv name
+        port: "51890"
+        firewall:
+          # - name: "WAN_In"
+          #   direction: "in"
+          # - name: "Tunnels_Local_v4"
+          #   direction: "WAN_Local"
+        wg_peers:
+          - name: "erx"
+            allowedips: "0.0.0.0/0"
+            address: "82.14.78.220"
+            port: "51891"
+            pubkey: "UbhSaUPiASdfKB6G/Jz6JHeSM2zp+MJ2THWyUVoyBUY="
+
     
     #   - name: "wg13"
     #     type: "wireguard"
