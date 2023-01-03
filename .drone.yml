@@ -9,7 +9,7 @@ steps:
   - pip3 install -r requirements.txt
   - python3 dry_run.py
   environment:
-    PASSWORD:
+    FRLIL1_PRIVKEY:
       from_secret: FRLIL1_PRIVKEY
 
 - name: Deploy
