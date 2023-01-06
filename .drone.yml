@@ -5,19 +5,22 @@ name: USMAN.NET CI/CD
 steps:
 - name: Dry Run
   image: python
+  environment:
+    FRLIL1_PRIVKEY:
+      from_secret: FRLIL1_PRIVKEY
   commands:
-  - export FRLIL1_PRIVKEY=$FRLIL1_PRIVKEY
-  - pip3 install -r requirements.txt
-  - python3 dry_run.py
+  # - pip3 install -r requirements.txt
+  # - python3 dry_run.py
+  - python3 envtest.py
 
-- name: Deploy
-  image: python
-  commands:
-  - pip3 install -r requirements.txt
-  - python3 main.py
-  when:
-    branch:
-    - main
+# - name: Deploy
+#   image: python
+#   commands:
+#   - pip3 install -r requirements.txt
+#   - python3 main.py
+#   when:
+#     branch:
+#     - main
 
 # - name: Health Checks
 #   image: python
