@@ -9,11 +9,11 @@ steps:
     FRLIL1_PRIVKEY:
       from_secret: FRLIL1_PRIVKEY
   commands:
-  - echo "export FRLIL1_PRIVKEY=$FRLIL1_PRIVKEY"
+  # - echo "export FRLIL1_PRIVKEY=$FRLIL1_PRIVKEY"
   # - pip3 install -r requirements.txt
   # - python3 dry_run.py
   - python3 envtest.py
-  - env
+  # - env
 
 # - name: Deploy
 #   image: python
