@@ -1,8 +1,5 @@
 import os
 
-# print (os.environ.get("FRLIL1_PRIVKEY"))
+test =  os.environ.get("FRLIL1_PRIVKEY")
 
-print(os.environ)
-print("---")
-print(os.environ['HOME'])
-print("---")
+print("dsaddsad2--"+test)
