@@ -13,14 +13,14 @@ steps:
   - pip3 install -r requirements.txt
   - python3 dry_run.py
 
-# - name: Deploy
-#   image: python
-#   commands:
-#   - pip3 install -r requirements.txt
-#   - python3 main.py
-#   when:
-#     branch:
-#     - main
+- name: Deploy
+  image: python
+  commands:
+  - pip3 install -r requirements.txt
+  - python3 main.py
+  when:
+    branch:
+    - main
 
 # - name: Health Checks
 #   image: python
