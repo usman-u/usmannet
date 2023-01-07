@@ -3,19 +3,24 @@ type: docker
 name: USMAN.NET CI/CD
 
 steps:
-- name: Run Linter Tests
+- name: Dry Run
   image: python
+  environment:
+    FRLIL1_PRIVKEY:
+      from_secret: FRLIL1_PRIVKEY
   commands:
-  - python3 hello.py
-
-- name: Install Requirements and Deploy
-  image: python
-  commands:
+  - python3 envtest.py
   - pip3 install -r requirements.txt
-  - python3 main.py
-  when:
-    branch:
-    - main
+  - python3 dry_run.py
+
+# - name: Deploy
+#   image: python
+#   commands:
+#   - pip3 install -r requirements.txt
+#   - python3 main.py
+#   when:
+#     branch:
+#     - main
 
 # - name: Health Checks
 #   image: python
