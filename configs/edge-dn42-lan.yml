@@ -7,7 +7,16 @@ routers:
       use_keys: False
       key_location: ""
       secret: ""
-    
+
+    groups:
+      - name: "Allowed-Transit-v4"
+        state: "present"
+        type: "network"
+        desc: "Allowed Transit Networks for DN42"
+        networks:
+          - "172.20.0.0/14"
+          - "172.31.0.0/16"
+
     firewalls:
 
       - name: "Tunnels_In_v4"
