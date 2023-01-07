@@ -224,23 +224,25 @@ routers:
             pubkey: "UbhSaUPiASdfKB6G/Jz6JHeSM2zp+MJ2THWyUVoyBUY="
 
     
-    #   - name: "wg13"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.166"
-    #     mask: "/32"
-    #     desc: "DN42_Kioubit"
-    #     firewall:
-    #       - name: "Tunnels_In_v4"
-    #         direction: "in"
-    #       - name: "Tunnels_Local_v4"
-    #         direction: "local"
-    #     wg_peers:
-    #       - name: "kioubit"
-    #         allowedips: "0.0.0.0/0"
-    #         endpoint: "uk1.g-load.eu:21869"
-    #         keepalive: "60"
-    #         pubkey: "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8="
+      - name: "wg914"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.166"
+        mask: "/32"
+        desc: "DN42_Kioubit"
+        privkey: "FRLIL1_PRIVKEY" # dotenv name
+        port: ""
+        firewall:
+          - name: "Tunnels_In_v4"
+            direction: "in"
+          - name: "Tunnels_Local_v4"
+            direction: "local"
+        wg_peers:
+          - name: "kioubit"
+            allowedips: "0.0.0.0/0"
+            endpoint: "uk1.g-load.eu:21869"
+            keepalive: "60"
+            pubkey: "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8="
 
 
     #   - name: "wg14"
@@ -446,8 +448,8 @@ routers:
         
     #     # TODO: add localpref stuff
 
-    # bgpasn: "4242421869"
-    # bgp_prefixes:
+    bgpasn: "4242421869"
+    bgp_prefixes:
     #   - prefix: "172.22.132.160"
     #     mask: "/27"
     #     address_family: "ipv4-unicast"
@@ -458,20 +460,20 @@ routers:
     #     address_family: "ipv4-unicast"
     #     state: "present"
     
-    # bgp_peers:
+    bgp_peers:
 
-    #   - ip: "172.20.53.104"
-    #     state: "present"
-    #     remote_as: "4242423914"
-    #     ebgp_multihop: "255"
-    #     desc: "kioubit"
-    #     route_maps:
-    #       - route_map: "DN42-ROA"
-    #         action: "import"
-    #         state: "present"
-    #       - route_map: "DN42-ROA"
-    #         action: "export"
-    #         state: "present"
+      - ip: "172.20.53.104"
+        state: "present"
+        remote_as: "4242423914"
+        ebgp_multihop: "255"
+        desc: "Kioubit"
+        route_maps:
+          - route_map: "DN42-ROA"
+            action: "import"
+            state: "present"
+          - route_map: "DN42-ROA"
+            action: "export"
+            state: "present"
 
     #   - ip: "172.20.16.141"
     #     state: "present"
@@ -618,11 +620,12 @@ routers:
     #     distance: ""
     #     state: "present"
 
-    #   - type: "interface-route"
-    #     network: "172.20.53.104/32"
-    #     nexthop: "wg13"
-    #     distance: ""
-    #     state: "present"
+      # Kioubit AS4242423914
+      - type: "interface-route"
+        network: "172.20.53.104/32"
+        nexthop: "wg914"
+        distance: ""
+        state: "present"
 
     #   - type: "interface-route"
     #     network: "172.20.229.116/32"
@@ -679,46 +682,46 @@ routers:
     #     state: "present"
     #     desc: "nullplane_chi_il"
 
-    # route_maps:
-    #   - name: "DN42-ROA"
-    #     desc: "DN42RouteMap"
-    #     rules:
-    #     - rule_no: "30"
-    #       state: "present"
-    #       action: "permit"
-    #       match: "ip address prefix-list filter-import"
+    route_maps:
+      - name: "DN42-ROA"
+        desc: "DN42RouteMap"
+        rules:
+        - rule_no: "30"
+          state: "present"
+          action: "permit"
+          match: "ip address prefix-list filter-import"
 
-    #     - rule_no: "40"
-    #       state: "present"
-    #       action: "deny"
-    #       match: "ip address prefix-list block-other-ranges"
+        - rule_no: "40"
+          state: "present"
+          action: "deny"
+          match: "ip address prefix-list block-other-ranges"
 
-    #     - rule_no: "50"
-    #       state: "present"
-    #       action: "deny"
-    #       match: "rpki invalid"
+        - rule_no: "50"
+          state: "present"
+          action: "deny"
+          match: "rpki invalid"
 
-    # prefix_lists:
-    #   - name: "block-other-ranges"
-    #     desc: "blocks-other-ranges"
-    #     rules:
-    #     - rule_no: "10"
-    #       state: "present"
-    #       action: "deny"
-    #       match:
-    #       - prefix: "10.0.0.0/8"
-    #         length: "le 32"
-    #         # length: "ge 10"
+    prefix_lists:
+      - name: "block-other-ranges"
+        desc: "blocks-other-ranges"
+        rules:
+        - rule_no: "10"
+          state: "present"
+          action: "deny"
+          match:
+          - prefix: "10.0.0.0/8"
+            length: "le 32"
+            # length: "ge 10"
 
-    #   - name: "filter-import"
-    #     desc: "filter imports to only include DN42 range"
-    #     rules:
-    #     - rule_no: "1"
-    #       state: "present"
-    #       action: "permit"
-    #       match:
-    #       - prefix: "172.20.0.0/14"
-    #         length: "le 32"
+      - name: "filter-import"
+        desc: "filter imports to only include DN42 range"
+        rules:
+        - rule_no: "1"
+          state: "present"
+          action: "permit"
+          match:
+          - prefix: "172.20.0.0/14"
+            length: "le 32"
 
     # ospf:
     #   ospf_redistribute:
@@ -736,6 +739,11 @@ routers:
     #       area: "1"
     #       state: "present"
 
+    #     - subnet: "172.22.132.162"
+    #       mask: "/31"
+    #       area: "1"
+    #       state: "present"
+
     #     - subnet: "172.22.132.176"
     #       mask: "/31"
     #       area: "0"
@@ -744,9 +752,4 @@ routers:
     #     - subnet: "172.22.132.168"
     #       mask: "/30"
     #       area: "0"
-    #       state: "present"
-
-    #     - subnet: "172.22.132.162"
-    #       mask: "/31"
-    #       area: "1"
     #       state: "present"
