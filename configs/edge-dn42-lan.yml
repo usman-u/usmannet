@@ -231,6 +231,7 @@ routers:
         mask: "/32"
         desc: "DN42_Kioubit"
         privkey: "FRLIL1_PRIVKEY" # dotenv name
+        port: ""
         firewall:
           - name: "Tunnels_In_v4"
             direction: "in"
