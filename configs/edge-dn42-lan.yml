@@ -723,33 +723,33 @@ routers:
           - prefix: "172.20.0.0/14"
             length: "le 32"
 
-    ospf:
-      ospf_redistribute:
-        # - redistribute: "bgp"
-          # route_map: ""
-          # state: "absent"
+    # ospf:
+    #   ospf_redistribute:
+    #     # - redistribute: "bgp"
+    #       # route_map: ""
+    #       # state: "absent"
 
-      ospf_parameters:
-        use_routerid: False
-        routerid: ""
+    #   ospf_parameters:
+    #     use_routerid: False
+    #     routerid: ""
 
-      ospf_networks:
-        - subnet: "10.100.100.0"
-          mask: "/24"
-          area: "1"
-          state: "present"
+    #   ospf_networks:
+    #     - subnet: "10.100.100.0"
+    #       mask: "/24"
+    #       area: "1"
+    #       state: "present"
 
-        - subnet: "172.22.132.162"
-          mask: "/31"
-          area: "1"
-          state: "present"
+    #     - subnet: "172.22.132.162"
+    #       mask: "/31"
+    #       area: "1"
+    #       state: "present"
 
-        - subnet: "172.22.132.176"
-          mask: "/31"
-          area: "0"
-          state: "present"
+    #     - subnet: "172.22.132.176"
+    #       mask: "/31"
+    #       area: "0"
+    #       state: "present"
 
-        - subnet: "172.22.132.168"
-          mask: "/30"
-          area: "0"
-          state: "present"
+    #     - subnet: "172.22.132.168"
+    #       mask: "/30"
+    #       area: "0"
+    #       state: "present"
