@@ -3,19 +3,16 @@ type: docker
 name: USMAN.NET CI/CD
 
 steps:
-- name: Install Requirements
-  image: python
-  commands:
-  - pip3 install -r requirements.txt
-
 - name: Dry Run
   image: python
   commands:
+  - pip3 install -r requirements.txt
   - python3 dryrun.py
 
 - name: Install Requirements and Deploy
   image: python
   commands:
+  - pip3 install -r requirements.txt
   - python3 main.py
   when:
     branch:
