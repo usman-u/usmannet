@@ -15,6 +15,9 @@ steps:
 
 - name: Deploy
   image: python
+  environment:
+    FRLIL1_PRIVKEY:
+      from_secret: FRLIL1_PRIVKEY
   commands:
   - pip3 install -r requirements.txt
   - python3 main.py
