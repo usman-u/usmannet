@@ -67,7 +67,8 @@ routers:
             state: "present"
             action: "accept"
             desc: "accept wg 51890 p2p_usman"
-            dest: "port 51890"
+            dest: 
+              - port: "51890"
             source: ""
             protocol: "udp"
 
