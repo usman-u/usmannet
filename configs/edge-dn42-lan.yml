@@ -76,7 +76,6 @@ routers:
             desc: "accept wg 51890 p2p_usman"
             dest: 
               - port: "51890"
-              - address: "1.1.1.1"
             source: ""
             protocol: "udp"
 
