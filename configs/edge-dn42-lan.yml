@@ -20,25 +20,30 @@ routers:
             protocol: "icmp"
             desc: "Accept ICMP to all"
 
-          # - rule_no: "60"
-          #   state: "present"
-          #   action: "accept"
-          #   protocol: "tcp_udp"
-          #   dest: "address 172.22.132.186"
-          #   desc: "Allow web traffic to blog server"
+          - rule_no: "60"
+            state: "present"
+            action: "accept"
+            protocol: "tcp_udp"
+            desc: "Allow web traffic to blog server"
+            dest: 
+              - address: "172.22.132.186/32"
+              - port: "80"
 
           - rule_no: "97"
             state: "present"
             action: "drop"
             desc: "Block Traffic to Operator Assigned IP Space"
-            dest: "address 172.22.132.160/27"
+            dest: 
+              - address: "172.22.132.160/27"
 
-          # - rule_no: "98"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "Allow Peer Transit"
-          #   dest: "group network-group Allowed-Transit-v4"
-          #   source: "group network-group 'Allowed-Transit-v4'"
+          - rule_no: "98"
+            state: "present"
+            action: "accept"
+            desc: "Allow Peer Transit"
+            dest: 
+              - group: "network-group Allowed-Transit-v4"
+            source: 
+              - group: "network-group Allowed-Transit-v4"
 
           - rule_no: "99"
             state: "present"
@@ -53,8 +58,10 @@ routers:
             state: "present"
             action: "accept"
             desc: "accept SSH"
-            dest: "port 22"
-            source: "82.14.78.220"
+            dest: 
+              - port: "22"
+            source: 
+              - address: "82.14.78.220"
             protocol: "tcp_udp"
 
           - rule_no: "20"
@@ -69,6 +76,7 @@ routers:
             desc: "accept wg 51890 p2p_usman"
             dest: 
               - port: "51890"
+              - address: "1.1.1.1"
             source: ""
             protocol: "udp"
 
