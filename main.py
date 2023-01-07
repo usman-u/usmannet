@@ -1,10 +1,10 @@
 from net_automation import net_automation
 import time
 
-net_automation.EdgeOS.deploy_yaml("configs/erx-zahid-lan.yml")
+# net_automation.EdgeOS.deploy_yaml("configs/erx-zahid-lan.yml")
 # net_automation.Cisco_IOS.deploy_yaml("configs/2960-usman-lan.yml")
-net_automation.EdgeOS.deploy_yaml("configs/erx-usman-lan.yml")
-# net_automation.Vyos.deploy_yaml("configs/edge-dn42-lan.yml")
+# net_automation.EdgeOS.deploy_yaml("configs/erx-usman-lan.yml")
+net_automation.Vyos.deploy_yaml("configs/edge-dn42-lan.yml", False)
 # net_automation.Vyos.deploy_yaml("edge-ca-dn42-lan.yml")
 
 def verify_cicso_switchports():
