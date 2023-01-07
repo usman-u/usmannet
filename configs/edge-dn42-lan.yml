@@ -59,7 +59,7 @@ routers:
             action: "drop"
             desc: "Black Hole"
 
-      - name: "Tunnels_In_v4"
+      - name: "Tunnels_Local_v4"
         state: "present"
         default_action: "drop"
         rules:
