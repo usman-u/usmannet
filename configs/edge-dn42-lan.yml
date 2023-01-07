@@ -59,6 +59,31 @@ routers:
             action: "drop"
             desc: "Black Hole"
 
+      - name: "Tunnels_In_v4"
+        state: "present"
+        default_action: "drop"
+        rules:
+          - rule_no: "50"
+            state: "present"
+            action: "accept"
+            protocol: "icmp"
+            desc: "Accept ICMP to all"
+
+          - rule_no: "60"
+            state: "present"
+            action: "accept"
+            protocol: "tcp"
+            desc: "Allow BGP Sessions"
+            dest: 
+              - port: "179"
+
+          - rule_no: "150"
+            state: "present"
+            action: "drop"
+            protocol: ""
+            desc: "Black Hole"
+
+
       - name: "WAN_Local"
         state: "present"
         default_action: "drop"
