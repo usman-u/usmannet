@@ -5,4 +5,4 @@ pySMTP
 matplotlib
 discord_webhook
 cerberus
-net-automation-usman-u
+network-automation-usman-u
