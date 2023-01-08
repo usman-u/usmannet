@@ -473,7 +473,7 @@ routers:
         
     #     # TODO: add localpref stuff
 
-   bgp:
+    bgp:
       asn: "4242421869"
       router_id: "172.22.132.166" 
 
