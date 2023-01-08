@@ -751,10 +751,10 @@ routers:
             length: "le 32"
 
     ospf:
-      ospf_redistribute:
-        # - redistribute: "bgp"
-          # route_map: ""
-          # state: "absent"
+      # ospf_redistribute:
+      #   - redistribute: "bgp"
+      #     route_map: ""
+      #     state: "absent"
 
       ospf_parameters:
         use_routerid: False
