@@ -265,7 +265,8 @@ routers:
         wg_peers:
           - name: "kioubit"
             allowedips: "0.0.0.0/0"
-            endpoint: "uk1.g-load.eu:21869"
+            address: "uk1.g-load.eu"
+            port: "21869"
             keepalive: "60"
             pubkey: "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8="
 
