@@ -473,32 +473,34 @@ routers:
         
     #     # TODO: add localpref stuff
 
-    bgpasn: "4242421869"
-    bgp_prefixes:
-    #   - prefix: "172.22.132.160"
-    #     mask: "/27"
-    #     address_family: "ipv4-unicast"
-    #     state: "present"
+    bgp:
+      asn: "4242421869"
+      router_id: "172.22.132.166" 
 
-    #   - prefix: "10.100.100.4"
-    #     mask: "/32"
-    #     address_family: "ipv4-unicast"
-    #     state: "present"
-    
-    bgp_peers:
+      prefixes:
+        - prefix: "172.22.132.160"
+          address_family: "ipv4-unicast"
+          mask: "/27"
+          state: "present"
 
-      - ip: "172.20.53.104"
-        state: "present"
-        remote_as: "4242423914"
-        ebgp_multihop: "255"
-        desc: "Kioubit"
-        route_maps:
-          - route_map: "DN42-ROA"
-            action: "import"
-            state: "present"
-          - route_map: "DN42-ROA"
-            action: "export"
-            state: "present"
+        - prefix: "10.100.100.4"
+          mask: "/32"
+          address_family: "ipv4-unicast"
+          state: "present"
+      
+      peers:
+        - ip: "172.20.53.104"
+          state: "present"
+          remote_as: "4242423914"
+          ebgp_multihop: "255"
+          desc: "kioubit"
+          route_maps:
+            - route_map: "DN42-ROA"
+              action: "import"
+              state: "present"
+            - route_map: "DN42-ROA"
+              action: "export"
+              state: "present"
 
     #   - ip: "172.20.16.141"
     #     state: "present"
@@ -638,7 +640,7 @@ routers:
     #         action: "export"
     #         state: "present"
 
-    # static:
+    static:
     #   - type: "interface-route"
     #     network: "172.20.16.141/32"
     #     nexthop: "wg15"
@@ -748,33 +750,33 @@ routers:
           - prefix: "172.20.0.0/14"
             length: "le 32"
 
-    # ospf:
-    #   ospf_redistribute:
-    #     # - redistribute: "bgp"
-    #       # route_map: ""
-    #       # state: "absent"
+    ospf:
+      # ospf_redistribute:
+      #   - redistribute: "bgp"
+      #     route_map: ""
+      #     state: "absent"
 
-    #   ospf_parameters:
-    #     use_routerid: False
-    #     routerid: ""
+      ospf_parameters:
+        use_routerid: False
+        routerid: ""
 
-    #   ospf_networks:
-    #     - subnet: "10.100.100.0"
-    #       mask: "/24"
-    #       area: "1"
-    #       state: "present"
+      ospf_networks:
+        - subnet: "10.100.100.0"
+          mask: "/24"
+          area: "1"
+          state: "present"
 
-    #     - subnet: "172.22.132.162"
-    #       mask: "/31"
-    #       area: "1"
-    #       state: "present"
+        - subnet: "172.22.132.162"
+          mask: "/31"
+          area: "1"
+          state: "present"
 
-    #     - subnet: "172.22.132.176"
-    #       mask: "/31"
-    #       area: "0"
-    #       state: "present"
+        - subnet: "172.22.132.176"
+          mask: "/31"
+          area: "0"
+          state: "present"
 
-    #     - subnet: "172.22.132.168"
-    #       mask: "/30"
-    #       area: "0"
-    #       state: "present"
+        - subnet: "172.22.132.168"
+          mask: "/30"
+          area: "0"
+          state: "present"
