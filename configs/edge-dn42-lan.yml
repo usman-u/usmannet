@@ -139,7 +139,8 @@ routers:
             state: "present"
             action: "accept"
             desc: "accept wg 51219 (iEdon)"
-            dest: "port 51219"
+            dest: 
+              - port: "51219"
             protocol: "udp"
 
           # - rule_no: "60"
