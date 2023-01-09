@@ -38,6 +38,15 @@ routers:
               - address: "172.22.132.186/32"
               - port: "80"
 
+          - rule_no: "61"
+            state: "present"
+            action: "accept"
+            protocol: "tcp_udp"
+            desc: "Allow DNS traffic to blog/DNS server (rasp pi)"
+            dest: 
+              - address: "172.22.132.186/32"
+              - port: "53"
+
           - rule_no: "65"
             state: "present"
             action: "accept"
