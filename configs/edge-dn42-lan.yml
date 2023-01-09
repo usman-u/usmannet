@@ -135,12 +135,12 @@ routers:
           #   dest: "port 51877"
           #   protocol: "udp"
 
-          # - rule_no: "51"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "accept iedon wg in"
-          #   dest: "port 51219"
-          #   protocol: "udp"
+          - rule_no: "51"
+            state: "present"
+            action: "accept"
+            desc: "accept wg 51219 (iEdon)"
+            dest: "port 51219"
+            protocol: "udp"
 
           # - rule_no: "60"
           #   state: "present"
@@ -421,23 +421,24 @@ routers:
     #       - name: "Tunnels_Local_v4"
     #         direction: "local"
 
-    #   - name: "wg219"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.166"
-    #     mask: "/32"
-    #     desc: "p2p_ideon_de"
-    #     port: "51219"
-    #     wg_peers:
-    #       - name: "iedon"
-    #         allowedips: "0.0.0.0/0"
-    #         pubkey: "v9Yi7kmVd1XDB0qBF12MaBSUx0Zqgh2If02VzZrx0Dg="
-    #         endpoint: "de-jena.dn42.kuu.moe:45450"
-    #     firewall:
-    #       - name: "Tunnels_In_v4"
-    #         direction: "in"
-    #       - name: "Tunnels_Local_v4"
-    #         direction: "local"
+      - name: "wg219"
+        type: "wireguard"
+        state: "present"
+        ip: "172.22.132.166"
+        mask: "/32"
+        desc: "p2p_ideon_de"
+        port: "51219"
+        wg_peers:
+          - name: "iedon"
+            allowedips: "0.0.0.0/0"
+            pubkey: "FHp0OR4UpAS8/Ra0FUNffTk18soUYCa6NcvZdOgxY0k="
+            address: "45.138.97.164"
+            port: "56912"
+        firewall:
+          - name: "Tunnels_In_v4"
+            direction: "in"
+          - name: "Tunnels_Local_v4"
+            direction: "local"
 
     #   - name: "wg21"
     #     type: "wireguard"
@@ -527,6 +528,19 @@ routers:
               action: "export"
               state: "present"
 
+        - ip: "172.23.91.125"
+          state: "present"
+          remote_as: "4242422189"
+          ebgp_multihop: "250"
+          desc: "iedon"
+          route_maps:
+            - route_map: "DN42-ROA"
+              action: "import"
+              state: "present"
+            - route_map: "DN42-ROA"
+              action: "export"
+              state: "present"
+
     #   - ip: "172.20.16.141"
     #     state: "present"
     #     remote_as: "4242421588"
@@ -581,18 +595,6 @@ routers:
 
 
 
-    #   - ip: "172.23.91.119"
-    #     state: "present"
-    #     remote_as: "4242422189"
-    #     ebgp_multihop: "250"
-    #     desc: "iedon"
-    #     route_maps:
-    #       - route_map: "DN42-ROA"
-    #         action: "import"
-    #         state: "present"
-    #       - route_map: "DN42-ROA"
-    #         action: "export"
-    #         state: "present"
 
     #   - ip: "172.20.43.96"
     #     state: "present"
@@ -654,25 +656,35 @@ routers:
     #         state: "present"
 
     static:
-    #   - type: "interface-route"
-    #     network: "172.20.16.141/32"
-    #     nexthop: "wg15"
-    #     distance: ""
-    #     state: "present"
 
-      # Kioubit AS4242423914
+      # Kioubit
       - type: "interface-route"
         network: "172.20.53.104/32"
         nexthop: "wg914"
         distance: ""
         state: "present"
 
+      # Lutoma
       - type: "interface-route"
         network: "172.22.119.1/32"
         nexthop: "wg719"
         distance: ""
         state: "present"
-        desc: "lutoma"
+
+      # iEdon
+      - type: "interface-route"
+        network: "172.23.91.125/32"
+        nexthop: "wg219"
+        distance: ""
+        state: "present"
+        desc: "iedon"
+
+    #   - type: "interface-route"
+    #     network: "172.20.16.141/32"
+    #     nexthop: "wg15"
+    #     distance: ""
+    #     state: "present"
+
     #   - type: "interface-route"
     #     network: "172.20.229.116/32"
     #     nexthop: "wg14"
@@ -701,12 +713,6 @@ routers:
     #     desc: "northrend"
 
 
-    #   - type: "interface-route"
-    #     network: "172.23.91.119/32"
-    #     nexthop: "wg219"
-    #     distance: ""
-    #     state: "present"
-    #     desc: "iedon"
 
     #   - type: "interface-route"
     #     network: "172.20.43.96/32"
