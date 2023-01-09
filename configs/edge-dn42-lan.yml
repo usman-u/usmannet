@@ -296,7 +296,7 @@ routers:
           - name: "lumota"
             allowedips: "0.0.0.0/0"
             address: "130.162.52.222"
-            port: "42800"
+            port: "42949"
             pubkey: "/mqP3+UPBSzyMT68EysEp4AbPymc8MMufYjH8lBNVk0="
 
       # - name: "wg14"
