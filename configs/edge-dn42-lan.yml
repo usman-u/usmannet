@@ -428,6 +428,7 @@ routers:
         mask: "/32"
         desc: "p2p_ideon_de"
         port: "51219"
+        privkey: "FRLIL1_PRIVKEY" # dotenv name
         wg_peers:
           - name: "iedon"
             allowedips: "0.0.0.0/0"
