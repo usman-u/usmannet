@@ -38,6 +38,16 @@ routers:
               - address: "172.22.132.186/32"
               - port: "80"
 
+          - rule_no: "65"
+            state: "present"
+            action: "accept"
+            desc: "allow estab related traffic"
+            states:
+              - name: "established"
+                status: "present"
+              - name: "related"
+                status: "enabled"
+
           - rule_no: "97"
             state: "present"
             action: "drop"
@@ -76,6 +86,16 @@ routers:
             desc: "Allow BGP Sessions"
             dest: 
               - port: "179"
+
+          - rule_no: "140"
+            state: "present"
+            action: "accept"
+            desc: "allow estab related traffic"
+            states:
+              - name: "established"
+                status: "present"
+              - name: "related"
+                status: "enabled"
 
           - rule_no: "150"
             state: "present"
@@ -504,6 +524,14 @@ routers:
           state: "present"
       
       peers:
+        #  uk-lon3.dn42.usman.network iBGP
+        - ip: "172.22.132.169"
+          state: "present"
+          remote_as: "4242421869"
+          ebgp_multihop: ""
+          route_maps:
+          desc: "iBGP_uk-lon3"
+
         - ip: "172.20.53.104"
           state: "present"
           remote_as: "4242423914"
