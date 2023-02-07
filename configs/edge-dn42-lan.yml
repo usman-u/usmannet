@@ -142,27 +142,12 @@ routers:
             source: ""
             protocol: "udp"
 
-          - rule_no: "40"
+          - rule_no: "50"
             state: "present"
             action: "accept"
-            desc: "accept wg 51179 (lutoma)"
-            dest: 
-              - port: "51179"
+            desc: "accept wg 51888 (chrismoos)"
+            dest: "port 51888"
             protocol: "udp"
-
-          # - rule_no: "40"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "accept wg 51899"
-          #   dest: "port 51899"
-          #   protocol: "udp"
-
-          # - rule_no: "50"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "accept chrismoos wg in"
-          #   dest: "port 51877"
-          #   protocol: "udp"
 
           - rule_no: "51"
             state: "present"
@@ -172,55 +157,13 @@ routers:
               - port: "51219"
             protocol: "udp"
 
-          # - rule_no: "60"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "accept in from zahid p2p"
-          #   dest: "port 51893"
-          #   protocol: "udp"
-
-          # - rule_no: "70"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "accept from wg joel "
-          #   dest: "port 51720"
-          #   protocol: "udp"
-
-          # - rule_no: "71"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "accept from wg hedgehog"
-          #   dest: "port 51459"
-          #   protocol: "udp"
-
-          # - rule_no: "85"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "accept wg from AWS iBGP"
-          #   dest: "port 51880"
-          #   protocol: "udp"
-
-          # - rule_no: "87"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "accept wg from uk1_iBGP"
-          #   dest: "port 51862"
-          #   protocol: "udp"
-
-          # - rule_no: "88"
-          #   state: "deleted"
-          #   action: "accept"
-          #   desc: "accept wg from us-west1 iBGP (azure)"
-          #   dest: "port 51864"
-          #   protocol: "udp"
-
-
-          # - rule_no: "89"
-          #   state: "present"
-          #   action: "accept"
-          #   desc: "accept wg from nullplane"
-          #   dest: "port 51591"
-          #   protocol: "udp"
+          - rule_no: "52"
+            state: "present"
+            action: "accept"
+            desc: "accept wg 23035 (lare)"
+            dest: 
+              - port: "23035"
+            protocol: "udp"
 
           - rule_no: "90"
             state: "present"
@@ -236,286 +179,166 @@ routers:
       - name: "eth0"
         type: "ethernet"
         state: "present"
-        ip: "dhcp"
-        mask: ""
+        addrs:
+          - "dhcp"
         desc: "WAN"
         firewall:
-          - name: "WAN_Local"
-            direction: "local"
-          # - name: "WAN_In" # TODO
-          #   direction: "in"
+          ipv4-unicast:
+            - name: "WAN_Local"
+              direction: "local"
+            # - name: "WAN_In" # TODO
+            #   direction: "in"
 
       - name: "lo"
         type: "loopback"
         state: "present"
-        ip: "10.100.100.4"
-        mask: "/32"
+        addrs: 
+          - "10.100.100.4/32"
         desc: "fr-lil1"
+        firewall:
 
     wireguard_interfaces:
-      # - name: "wg11"
-      #   type: "wireguard"
-      #   state: "present"
-      #   ip: "172.22.132.177"
-      #   mask: "/31"
-      #   desc: "p2p_zahid"
-      #   port: "51893"
-      #   wg_peers:
-      #     - name: "zahid"
-      #       allowedips: "0.0.0.0/0"
-      #       endpoint: "91.135.14.109:51891"
-      #       pubkey: "GFeyDtmAqToUd2xiQ6nPXKG2/WVvZrhaD5rlSwNpw2Y="
-
+      # iBGP
       - name: "wg12"
         type: "wireguard"
         state: "present"
-        ip: "172.22.132.170"
-        mask: "/30"
+        addrs: 
+          - "172.22.132.170/30"
         desc: "p2p_usman"
         privkey: "FRLIL1_PRIVKEY" # dotenv name
         port: "51890"
         firewall:
-          # - name: "WAN_In"
-          #   direction: "in"
-          # - name: "Tunnels_Local_v4"
-          #   direction: "WAN_Local"
         wg_peers:
           - name: "erx"
-            allowedips: "0.0.0.0/0"
+            allowedips: 
+              - "0.0.0.0/0"
             address: "82.14.78.220"
             port: "51891"
             pubkey: "UbhSaUPiASdfKB6G/Jz6JHeSM2zp+MJ2THWyUVoyBUY="
+            keepalive: "60"
 
-    
+      # kioubit
       - name: "wg914"
         type: "wireguard"
         state: "present"
-        ip: "172.22.132.166"
-        mask: "/32"
+        addrs: 
+          - "172.22.132.166/32"
+          - "fe80::1869/128"
         desc: "DN42_Kioubit"
         privkey: "FRLIL1_PRIVKEY" # dotenv name
         port: ""
         firewall:
-          - name: "Tunnels_In_v4"
-            direction: "in"
-          - name: "Tunnels_Local_v4"
-            direction: "local"
+          ipv4-unicast:
+            - name: "Tunnels_In_v4"
+              direction: "in"
+            - name: "Tunnels_Local_v4"
+              direction: "local"
+          ipv6-unicast:
+            - name: "Tunnels_In_v6"
+              direction: "in"
+            - name: "Tunnels_Local_v6"
+              direction: "local"
         wg_peers:
           - name: "kioubit"
-            allowedips: "0.0.0.0/0"
-            address: "194.29.101.166"
+            allowedips: 
+              - "0.0.0.0/0"
+              - "::/0"
+            address: "146.59.249.203"
             port: "21869"
             keepalive: "60"
-            pubkey: "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8="
+            pubkey: "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8=" 
 
-
-      - name: "wg719"
+      # chrismoos
+      - name: "wg588"
         type: "wireguard"
         state: "present"
-        ip: "172.22.132.166"
-        mask: "/32"
-        desc: "lumota"
-        port: "51179"
+        addrs:
+          - "172.22.132.166/32"
+          - "fe80::100/128"
+        desc: "DN42_Chrismoos_de-fra02"
+        port: "51888"
         privkey: "FRLIL1_PRIVKEY" # dotenv name
-        firewall:
-          - name: "Tunnels_In_v4"
-            direction: "in"
-          - name: "Tunnels_Local_v4"
-            direction: "local"
         wg_peers:
-          - name: "lumota"
-            allowedips: "0.0.0.0/0"
-            address: "130.162.52.222"
-            port: "42949"
-            pubkey: "/mqP3+UPBSzyMT68EysEp4AbPymc8MMufYjH8lBNVk0="
-
-      # - name: "wg14"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.166"
-    #     mask: "/32"
-    #     desc: "DN42_highdef"
-    #     firewall:
-    #       - name: "Tunnels_In_v4"
-    #         direction: "in"
-    #       - name: "Tunnels_Local_v4"
-    #         direction: "local"
-    #     wg_peers:
-    #       - name: "highdef"
-    #         allowedips: "0.0.0.0/0"
-    #         endpoint: "185.164.136.218:21869"
-    #         keepalive: "60"
-    #         pubkey: "pEQZQOD67QeWXqrHLrMoCXug/cOXJFMXH5vwQ1cW70s="
-
-    #   - name: "wg15"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.166"
-    #     mask: "/32"
-    #     desc: "DN42_chrismoos"
-    #     port: "51877"
-    #     firewall:
-    #       - name: "Tunnels_In_v4"
-    #         direction: "in"
-    #       - name: "Tunnels_Local_v4"
-    #         direction: "local"
-    #     wg_peers:
-    #       - name: "chr"
-    #         allowedips: "0.0.0.0/0"
-    #         endpoint: "95.179.251.165:58642"
-    #         pubkey: "MD1EdVe9a0yycUdXCH3A61s3HhlDn17m5d07e4H33S0="
-
-    #   - name: "wg16"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.166"
-    #     mask: "/32"
-    #     desc: "DN42_Pebcak"
-    #     firewall:
-    #       - name: "Tunnels_In_v4"
-    #         direction: "in"
-    #       - name: "Tunnels_Local_v4"
-    #         direction: "local"
-    #     wg_peers:
-    #       - name: "DN42_Pebcak"
-    #         allowedips: "0.0.0.0/0"
-    #         endpoint: "95.179.144.2:51869"
-    #         keepalive: "60"
-    #         pubkey: "g4MJv6qMPwbffxNjUKmIa5Yhf5ZzRqjIMzMHCSiFQgs="
-
-    #   - name: "wg17"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.166"
-    #     mask: "/32"
-    #     desc: "joel"
-    #     port: "51720"
-    #     firewall:
-    #       - name: "Tunnels_In_v4"
-    #         direction: "in"
-    #       - name: "Tunnels_Local_v4"
-    #         direction: "local"
-    #     wg_peers:
-    #       - name: "joel"
-    #         allowedips: "0.0.0.0/0"
-    #         endpoint: "chi-r02.pub.joelheaps.com:50013"
-    #         pubkey: "lVJwCvlEO3J9dWSe0bRaReYOaTtq1heUtQgQK7NnEn8="
+          - name: "chrismoos_de-fra02"
+            allowedips: 
+              - "0.0.0.0/0"
+              - "::/0"
+            pubkey: "MD1EdVe9a0yycUdXCH3A61s3HhlDn17m5d07e4H33S0="
+            address: "95.179.251.165"
+            port: "55196"
+            keepalive: "60"
+        firewall:
+          ipv4-unicast:
+            - name: "Tunnels_In_v4"
+              direction: "in"
+            - name: "Tunnels_Local_v4"
+              direction: "local"
+          ipv6-unicast:
+            - name: "Tunnels_In_v6"
+              direction: "in"
+            - name: "Tunnels_Local_v6"
+              direction: "local"
 
 
-    #   - name: "wg459"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.166"
-    #     mask: "/32"
-    #     desc: "hedgehog"
-    #     port: "51459"
-    #     firewall:
-    #       - name: "Tunnels_In_v4"
-    #         direction: "in"
-    #       - name: "Tunnels_Local_v4"
-    #         direction: "local"
-    #     wg_peers:
-    #       - name: "hedgehog"
-    #         allowedips: "0.0.0.0/0"
-    #         endpoint: "dn42.thehedgehog.me:494"
-    #         pubkey: "e6kp9sca4XIzncKa9GEQwyOnMjje299Xg9ZdgXWMwHg="
-
-    #   - name: "wg19"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.180"
-    #     mask: "/31"
-    #     desc: "p2p_iBGP_AWS"
-    #     port: "51880"
-    #     wg_peers:
-    #       - name: "AWS"
-    #         allowedips: "0.0.0.0/0"
-    #         pubkey: "EU7d1zcqChexevMgNW/jBedMIo7/a20Z11u/cWD8sCU="
-
-
-    #   - name: "wg20"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.166"
-    #     mask: "/32"
-    #     desc: "p2p_northrend"
-    #     port: "51877"
-    #     wg_peers:
-    #       - name: "Northrend"
-    #         allowedips: "0.0.0.0/0"
-    #         pubkey: "hWa+vjUl+y60WmjhcT2/yamSgcSEOg692M4OcT6L5j4="
-    #         endpoint: "ro-proxy.nodes.northrend.net:53326"
-    #     firewall:
-    #       - name: "Tunnels_In_v4"
-    #         direction: "in"
-    #       - name: "Tunnels_Local_v4"
-    #         direction: "local"
-
+      # iedon
       - name: "wg219"
         type: "wireguard"
         state: "present"
-        ip: "172.22.132.166"
-        mask: "/32"
+        addrs:
+          - "172.22.132.166"
+          - "fe80::1869/128"
         desc: "p2p_ideon_de"
         port: "51219"
         privkey: "FRLIL1_PRIVKEY" # dotenv name
         wg_peers:
           - name: "iedon"
-            allowedips: "0.0.0.0/0"
+            allowedips: 
+              - "0.0.0.0/0"
+              - "::/0"
             pubkey: "FHp0OR4UpAS8/Ra0FUNffTk18soUYCa6NcvZdOgxY0k="
             address: "45.138.97.164"
-            port: "56912"
+            port: "40298"
+            keepalive: "60"
         firewall:
-          - name: "Tunnels_In_v4"
-            direction: "in"
-          - name: "Tunnels_Local_v4"
-            direction: "local"
+          ipv4-unicast:
+            - name: "Tunnels_In_v4"
+              direction: "in"
+            - name: "Tunnels_Local_v4"
+              direction: "local"
+          ipv6-unicast:
+            - name: "Tunnels_In_v6"
+              direction: "in"
+            - name: "Tunnels_Local_v6"
+              direction: "local"
 
-    #   - name: "wg21"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.162"
-    #     mask: "/31"
-    #     desc: "p2p_iBGP_uk1.dn42.usman.network"
-    #     port: "51862"
-    #     wg_peers:
-    #       - name: "iBGP_uk1"
-    #         allowedips: "0.0.0.0/0"
-    #         pubkey: "9Cw2sSRMATDxQzG4+Je/O1pFqJ64xsvlnfmknHb2dhE="
-    #         endpoint: "uk1-lon.dn42.usman.network:51863"
-
-    #   - name: "wg22"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.164"
-    #     mask: "/31"
-    #     desc: "p2p_iBGP_us-west1.dn42.usman.network"
-    #     port: "51864"
-    #     wg_peers:
-    #       - name: "us-west1_iBGP"
-    #         allowedips: "0.0.0.0/0"
-    #         pubkey: "0aDKyiSNVwuQLNqZs7+9CeLIkFt7WkpQZhgBodLTtQQ="
-    #         endpoint: "us-west1.dn42.usman.network:51865"
-
-    #   - name: "wg591"
-    #     type: "wireguard"
-    #     state: "present"
-    #     ip: "172.22.132.166"
-    #     mask: "/31"
-    #     desc: "p2p_nullpointer_chi_il"
-    #     port: "51591"
-    #     wg_peers:
-    #       - name: "p2p_nullpointer_chi_il"
-    #         allowedips: "0.0.0.0/0"
-    #         pubkey: "oKhq3iDYFkwuyG611qCgbo6UzRm3wEiSn2CwJQn4QRA="
-    #         endpoint: "rtr1.ord.nullplane.net:21869"
-    #     firewall:
-    #       - name: "Tunnels_In_v4"
-    #         direction: "in"
-    #       - name: "Tunnels_Local_v4"
-    #         direction: "local"
-        
-    #     # TODO: add localpref stuff
+      # lare
+      - name: "wg3035"
+        type: "wireguard"
+        state: "present"
+        addrs:
+          - "fe80::1869/128"
+        desc: "DN42_Lare"
+        port: "23035"
+        privkey: "FRLIL1_PRIVKEY" # dotenv name
+        wg_peers:
+          - name: "lare"
+            allowedips: 
+              - "0.0.0.0/0"
+              - "::/0"
+            pubkey: "OL2LE2feDsFV+fOC4vo4u/1enuxf3m2kydwGRE2rKVs="
+            address: "172.104.203.253"
+            port: "21869"
+        firewall:
+          ipv4-unicast:
+            - name: "Tunnels_In_v4"
+              direction: "in"
+            - name: "Tunnels_Local_v4"
+              direction: "local"
+          ipv6-unicast:
+            - name: "Tunnels_In_v6"
+              direction: "in"
+            - name: "Tunnels_Local_v6"
+              direction: "local"
 
     bgp:
       asn: "4242421869"
@@ -526,6 +349,11 @@ routers:
           address_family: "ipv4-unicast"
           mask: "/27"
           state: "present"
+        
+        - prefix: "fd5f:2bd0:1feb::"
+          address_family: "ipv6-unicast"
+          mask: "/48"
+          state: "present"
 
         - prefix: "10.100.100.4"
           mask: "/32"
@@ -533,253 +361,139 @@ routers:
           state: "present"
       
       peers:
-        #  uk-lon3.dn42.usman.network iBGP
+        #  uk-lon3 iBGP
         - ip: "172.22.132.169"
           state: "present"
           remote_as: "4242421869"
+          source_interface: ""
+          extended_next_hop: False
           ebgp_multihop: ""
           route_maps:
           desc: "iBGP_uk-lon3"
 
-        - ip: "172.20.53.104"
+        # kioubit-MPBGP
+        - ip: "fe80::ade0"
           state: "present"
           remote_as: "4242423914"
-          ebgp_multihop: "255"
-          desc: "kioubit"
+          source_interface: "wg914"
+          extended_next_hop: True
+          ebgp_multihop: ""
+          desc: "kioubit-MPBGP"
           route_maps:
-            - route_map: "DN42-ROA"
-              action: "import"
-              state: "present"
-            - route_map: "DN42-ROA"
-              action: "export"
-              state: "present"
+            ipv4-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
+            ipv6-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
 
-        - ip: "172.22.119.1"
-          state: "present"
-          remote_as: "64719"
-          ebgp_multihop: "250"
-          desc: "lutoma"
-          route_maps:
-            - route_map: "DN42-ROA"
-              action: "import"
-              state: "present"
-            - route_map: "DN42-ROA"
-              action: "export"
-              state: "present"
-
-        - ip: "172.23.91.125"
+        # iedon-MPBGP
+        - ip: "fe80::2189:e9"
           state: "present"
           remote_as: "4242422189"
-          ebgp_multihop: "250"
-          desc: "iedon"
+          source_interface: "wg219"
+          extended_next_hop: True
+          ebgp_multihop: ""
+          desc: "iedon-MPBGP"
           route_maps:
-            - route_map: "DN42-ROA"
-              action: "import"
-              state: "present"
-            - route_map: "DN42-ROA"
-              action: "export"
-              state: "present"
+            ipv4-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
+            ipv6-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
 
-    #   - ip: "172.20.16.141"
-    #     state: "present"
-    #     remote_as: "4242421588"
-    #     ebgp_multihop: "250"
-    #     desc: "chrismoos"
-    #     route_maps:
-    #       - route_map: "DN42-ROA"
-    #         action: "import"
-    #         state: "present"
-    #       - route_map: "DN42-ROA"
-    #         action: "export"
-    #         state: "present"
+        # chrismoos-MPBGP
+        - ip: "fe80::1588"
+          state: "present"
+          remote_as: "4242421588"
+          source_interface: "wg588"
+          extended_next_hop: False
+          ebgp_multihop: "20"       # as no next hop; also static route for v4
+          desc: "chrismoos-MPBGP"
+          route_maps:
+            ipv4-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
+            ipv6-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
 
-    #   - ip: "172.21.67.200"
-    #     state: "present"
-    #     remote_as: "4242422092"
-    #     ebgp_multihop: "255"
-    #     desc: "pebcak"
-    #     route_maps:
-    #       - route_map: "DN42-ROA"
-    #         action: "import"
-    #         state: "present"
-    #       - route_map: "DN42-ROA"
-    #         action: "export"
-    #         state: "present"
-
-    #   - ip: "172.20.229.116"
-    #     state: "present"
-    #     remote_as: "4242421080"
-    #     ebgp_multihop: "250"
-    #     desc: "highdef"
-    #     route_maps:
-    #       - route_map: "DN42-ROA"
-    #         action: "import"
-    #         state: "present"
-    #       - route_map: "DN42-ROA"
-    #         action: "export"
-    #         state: "present"
-
-    #   - ip: "172.23.120.49"
-    #     state: "present"
-    #     remote_as: "4242421720"
-    #     ebgp_multihop: "250"
-    #     desc: "joel"
-    #     route_maps:
-    #       - route_map: "DN42-ROA"
-    #         action: "import"
-    #         state: "present"
-    #       - route_map: "DN42-ROA"
-    #         action: "export"
-    #         state: "present"
-
-
-
-
-    #   - ip: "172.20.43.96"
-    #     state: "present"
-    #     remote_as: "4242422459"
-    #     ebgp_multihop: "250"
-    #     desc: "hedgehog"
-    #     route_maps:
-    #       - route_map: "DN42-ROA"
-    #         action: "import"
-    #         state: "present"
-    #       - route_map: "DN42-ROA"
-    #         action: "export"
-    #         state: "present"
-
-    #   #  AWS iBGP (status)
-    #   - ip: "172.22.132.181"
-    #     state: "present"
-    #     remote_as: "4242421869"
-    #     ebgp_multihop: "250"
-    #     desc: "AWS"
-
-    #   #  uk1.dn42.usman.network iBGP (AWS)
-    #   - ip: "172.22.132.163"
-    #     state: "present"
-    #     remote_as: "4242421869"
-    #     ebgp_multihop: "250"
-    #     desc: "uk1_iBGP"
-
-    #   - ip: "172.22.132.165"
-    #     state: "present"
-    #     remote_as: "4242421869"
-    #     ebgp_multihop: "250"
-    #     desc: "us-west1_iBGP"
-
-    #   - ip: "172.20.222.224"
-    #     state: "present"
-    #     remote_as: "4242423192"
-    #     ebgp_multihop: "250"
-    #     desc: "northrend"
-    #     route_maps:
-    #       - route_map: "DN42-ROA"
-    #         action: "import"
-    #         state: "present"
-    #       - route_map: "DN42-ROA"
-    #         action: "export"
-    #         state: "present"
-
-    #   - ip: "172.21.91.65"
-    #     state: "present"
-    #     remote_as: "4242420591"
-    #     ebgp_multihop: "250"
-    #     desc: "nullplane_chi_il"
-    #     route_maps:
-    #       - route_map: "DN42-ROA"
-    #         action: "import"
-    #         state: "present"
-    #       - route_map: "DN42-ROA"
-    #         action: "export"
-    #         state: "present"
+        # lare-MPBGP
+        - ip: "fe80::3035:130"
+          state: "present"
+          remote_as: "4242423035"
+          source_interface: "wg3035"
+          extended_next_hop: True
+          ebgp_multihop: ""
+          desc: "lare-MPBGP"
+          route_maps:
+            ipv4-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
+            ipv6-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
 
     static:
 
-      # Kioubit
+      # for chrismoos-v4(as no extended next hop)
       - type: "interface-route"
-        network: "172.20.53.104/32"
-        nexthop: "wg914"
+        network: "172.20.16.141"
+        nexthop: "wg588"
         distance: ""
         state: "present"
-
-      # Lutoma
-      - type: "interface-route"
-        network: "172.22.119.1/32"
-        nexthop: "wg719"
-        distance: ""
-        state: "present"
-
-      # iEdon
-      - type: "interface-route"
-        network: "172.23.91.125/32"
-        nexthop: "wg219"
-        distance: ""
-        state: "present"
-        desc: "iedon"
-
-    #   - type: "interface-route"
-    #     network: "172.20.16.141/32"
-    #     nexthop: "wg15"
-    #     distance: ""
-    #     state: "present"
-
-    #   - type: "interface-route"
-    #     network: "172.20.229.116/32"
-    #     nexthop: "wg14"
-    #     distance: ""
-    #     state: "present"
-
-    #   - type: "interface-route"
-    #     network: "172.21.67.200/32"
-    #     nexthop: "wg16"
-    #     distance: ""
-    #     state: "present"
-    #     desc: "pebcak"
-
-    #   - type: "interface-route"
-    #     network: "172.23.120.49/32"
-    #     nexthop: "wg17"
-    #     distance: ""
-    #     state: "present"
-    #     desc: "joel"
-
-    #   - type: "interface-route"
-    #     network: "172.20.222.224/32"
-    #     nexthop: "wg20"
-    #     distance: ""
-    #     state: "present"
-    #     desc: "northrend"
-
-
-
-    #   - type: "interface-route"
-    #     network: "172.20.43.96/32"
-    #     nexthop: "wg459"
-    #     distance: ""
-    #     state: "present"
-    #     desc: "hedgehog"
-
-    #   - type: "interface-route"
-    #     network: "172.21.91.65/32"
-    #     nexthop: "wg591"
-    #     distance: ""
-    #     state: "present"
-    #     desc: "nullplane_chi_il"
 
     route_maps:
       - name: "DN42-ROA"
         desc: "DN42RouteMap"
         rules:
-        - rule_no: "30"
+        - rule_no: "10"
           state: "present"
           action: "permit"
-          match: "ip address prefix-list filter-import"
+          match: "ip address prefix-list DN42-Network"
 
-        - rule_no: "40"
+        - rule_no: "15"
+          state: "present"
+          action: "permit"
+          match: "ipv6 address prefix-list DN42-Network-v6"
+
+        - rule_no: "20"
           state: "present"
           action: "deny"
-          match: "ip address prefix-list block-other-ranges"
+          match: "ip address prefix-list BlockIPConflicts"
 
         - rule_no: "50"
           state: "present"
@@ -787,6 +501,28 @@ routers:
           match: "rpki invalid"
 
     prefix_lists:
+      - name: "BlockIPConflicts"
+        desc: "Prevent Conflicting Routes"
+        rules:
+        - rule_no: "10"
+          state: "present"
+          action: "permit"
+          desc: "Internal IP Space" # TODO in backend
+          match:
+          - prefix: "10.0.0.0/8"
+            length: "le 32"
+
+      - name: "DN42-Network"
+        desc: "DN42 IPv4 Space"
+        rules:
+        - rule_no: "10"
+          state: "present"
+          action: "permit"
+          desc: "DN42 IP Space" # TODO in backend
+          match:
+          - prefix: "172.20.0.0/14"
+            length: "le 32"
+
       - name: "block-other-ranges"
         desc: "blocks-other-ranges"
         rules:
@@ -796,7 +532,6 @@ routers:
           match:
           - prefix: "10.0.0.0/8"
             length: "le 32"
-            # length: "ge 10"
 
       - name: "filter-import"
         desc: "filter imports to only include DN42 range"
