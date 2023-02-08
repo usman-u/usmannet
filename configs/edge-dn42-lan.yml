@@ -425,7 +425,7 @@ routers:
           remote_as: "4242421588"
           source_interface: "wg588"
           extended_next_hop: False
-          ebgp_multihop: "20"       # as no next hop; also static route for v4
+          ebgp_multihop: ""
           desc: "chrismoos-MPBGP"
           route_maps:
             ipv4-unicast:
