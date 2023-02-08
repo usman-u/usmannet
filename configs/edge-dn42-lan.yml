@@ -301,7 +301,7 @@ routers:
         type: "wireguard"
         state: "present"
         addrs:
-          - "172.22.132.166"
+          - "172.22.132.166/32"
           - "fe80::1869/128"
         desc: "p2p_ideon_de"
         port: "51219"
@@ -332,6 +332,7 @@ routers:
         type: "wireguard"
         state: "present"
         addrs:
+          - "172.22.132.166/32"
           - "fe80::1869/128"
         desc: "DN42_Lare"
         port: "23035"
@@ -361,6 +362,7 @@ routers:
         type: "wireguard"
         state: "present"
         addrs:
+          - "172.22.132.166/32"
           - "fe80::abcd/128"
         desc: "DN42_SUNNET"
         port: "23088"
@@ -390,6 +392,7 @@ routers:
         type: "wireguard"
         state: "present"
         addrs:
+          - "172.22.132.166/32"
           - "fe80::1869/128"
         desc: "DN42_Theresa"
         port: "23396"
