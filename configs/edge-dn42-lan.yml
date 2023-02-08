@@ -358,7 +358,7 @@ routers:
         port: "23088"
         privkey: "FRLIL1_PRIVKEY" # dotenv name
         wg_peers:
-          - name: "lare"
+          - name: "SUNNET"
             allowedips: 
               - "0.0.0.0/0"
               - "::/0"
