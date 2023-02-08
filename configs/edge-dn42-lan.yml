@@ -165,6 +165,14 @@ routers:
               - port: "23035"
             protocol: "udp"
 
+          - rule_no: "53"
+            state: "present"
+            action: "accept"
+            desc: "accept wg 23088 (SUNNET)"
+            dest: 
+              - port: "23088"
+            protocol: "udp"
+
           - rule_no: "90"
             state: "present"
             action: "accept"
@@ -340,6 +348,36 @@ routers:
             - name: "Tunnels_Local_v6"
               direction: "local"
 
+      # SUNNET-MPBGP
+      - name: "wg3088"
+        type: "wireguard"
+        state: "present"
+        addrs:
+          - "fe80::abcd/128"
+        desc: "DN42_SUNNET"
+        port: "23088"
+        privkey: "FRLIL1_PRIVKEY" # dotenv name
+        wg_peers:
+          - name: "SUNNET"
+            allowedips: 
+              - "0.0.0.0/0"
+              - "::/0"
+            pubkey: "473DoZw3cg0Q+XwRR6/QjBr5z3jge7YC3eOh1a6xTEQ="
+            address: "178.170.54.168"
+            port: "21869"
+        firewall:
+          ipv4-unicast:
+            - name: "Tunnels_In_v4"
+              direction: "in"
+            - name: "Tunnels_Local_v4"
+              direction: "local"
+          ipv6-unicast:
+            - name: "Tunnels_In_v6"
+              direction: "in"
+            - name: "Tunnels_Local_v6"
+              direction: "local"
+
+
     bgp:
       asn: "4242421869"
       router_id: "172.22.132.166" 
@@ -451,6 +489,31 @@ routers:
           extended_next_hop: True
           ebgp_multihop: ""
           desc: "lare-MPBGP"
+          route_maps:
+            ipv4-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
+            ipv6-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
+
+
+        # SUNNET-MPBGP
+        - ip: "fe80::3088:205"
+          state: "present"
+          remote_as: "4242423088"
+          source_interface: "wg3088"
+          extended_next_hop: True
+          ebgp_multihop: ""
+          desc: "SUNNET-MPBGP"
           route_maps:
             ipv4-unicast:
               - route_map: "DN42-ROA"
