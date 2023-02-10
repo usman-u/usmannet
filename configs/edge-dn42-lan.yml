@@ -173,7 +173,7 @@ routers:
               - port: "23088"
             protocol: "udp"
 
-          - rule_no: "53"
+          - rule_no: "54"
             state: "present"
             action: "accept"
             desc: "accept wg 23396 (theresa)"
@@ -181,12 +181,20 @@ routers:
               - port: "23396"
             protocol: "udp"
 
-          - rule_no: "54"
+          - rule_no: "55"
             state: "present"
             action: "accept"
             desc: "accept wg 21816 (potat0)"
             dest: 
               - port: "21816"
+            protocol: "udp"
+
+          - rule_no: "56"
+            state: "present"
+            action: "accept"
+            desc: "accept wg 52601 (burble)"
+            dest: 
+              - port: "52601"
             protocol: "udp"
 
           - rule_no: "90"
@@ -455,6 +463,36 @@ routers:
             - name: "Tunnels_Local_v6"
               direction: "local"
 
+      # burble-MPBGP
+      - name: "wg2601"
+        type: "wireguard"
+        state: "present"
+        addrs:
+          - "172.22.132.166/32"
+          - "fe80::1869/128"
+        desc: "DN42_Burble"
+        port: "52601"
+        privkey: "FRLIL1_PRIVKEY" # dotenv name
+        wg_peers:
+          - name: "burble"
+            allowedips: 
+              - "0.0.0.0/0"
+              - "::/0"
+            pubkey: "uZiZyTsJkG/On8/4R/n5mR3Gw4tGNNqtUT/g7qSm3ys="
+            address: "51.159.194.131"
+            port: "21869"
+        firewall:
+          ipv4-unicast:
+            - name: "Tunnels_In_v4"
+              direction: "in"
+            - name: "Tunnels_Local_v4"
+              direction: "local"
+          ipv6-unicast:
+            - name: "Tunnels_In_v6"
+              direction: "in"
+            - name: "Tunnels_Local_v6"
+              direction: "local"
+
     bgp:
       asn: "4242421869"
       router_id: "172.22.132.166" 
@@ -639,6 +677,30 @@ routers:
           extended_next_hop: True
           ebgp_multihop: ""
           desc: "DN42_potat0-MPBGP"
+          route_maps:
+            ipv4-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
+            ipv6-unicast:
+              - route_map: "DN42-ROA"
+                action: "import"
+                state: "present"
+              - route_map: "DN42-ROA"
+                action: "export"
+                state: "present"
+
+        # burble-MPBGP
+        - ip: "fe80::42:2601:36:1"
+          state: "present"
+          remote_as: "4242422601"
+          source_interface: "wg2601"
+          extended_next_hop: True
+          ebgp_multihop: ""
+          desc: "DN42_burble-MPBGP"
           route_maps:
             ipv4-unicast:
               - route_map: "DN42-ROA"
