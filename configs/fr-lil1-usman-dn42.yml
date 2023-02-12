@@ -9,203 +9,273 @@ routers:
       secret: ""
 
     groups:
-      - name: "Allowed-Transit-v4"
-        state: "present"
-        type: "network"
-        desc: "Allowed Transit Networks for DN42"
-        networks:
-          - "172.20.0.0/14"
-          - "172.31.0.0/16"
+      state: "replaced"
+      config:
+        - name: "Allowed-Transit-v4"
+          state: present
+          type: network
+          desc: "Allowed Transit Networks for DN42"
+          networks:
+            - "172.20.0.0/14"
+            - "172.31.0.0/16"
+
+        - name: "Allowed-Transit-v6"
+          state: "present"
+          type: "ipv6-network"
+          desc: "Allowed v6 Transit Network for DN42"
+          networks:
+            - "fd00::/8"
+
+        - name: "My-Assigned-Space-v6"
+          state: "present"
+          type: "ipv6-network"
+          desc: "My Assigned v6 Space for DN42"
+          networks:
+            - "fd5f:2bd0:1feb::/48"
+
 
     firewalls:
+      state: "replaced"
+      config:
 
-      - name: "Tunnels_In_v4"
-        state: "present"
-        default_action: "drop"
-        rules:
-          - rule_no: "50"
-            state: "present"
-            action: "accept"
-            protocol: "icmp"
-            desc: "Accept ICMP to all"
+        - name: "Tunnels_In_v4"
+          state: "present"
+          default_action: "drop"
+          rules:
+            - rule_no: "50"
+              state: "present"
+              action: "accept"
+              protocol: "icmp"
+              desc: "Accept ICMP to all"
 
-          - rule_no: "60"
-            state: "present"
-            action: "accept"
-            protocol: "tcp_udp"
-            desc: "Allow web traffic to blog server"
-            dest: 
-              - address: "172.22.132.186/32"
-              - port: "80"
+            - rule_no: "60"
+              state: "present"
+              action: "accept"
+              protocol: "tcp_udp"
+              desc: "Allow web traffic to blog server"
+              dest: 
+                - address: "172.22.132.186/32"
+                - port: "80"
 
-          - rule_no: "61"
-            state: "present"
-            action: "accept"
-            protocol: "tcp_udp"
-            desc: "Allow DNS traffic to blog/DNS server (rasp pi)"
-            dest: 
-              - address: "172.22.132.186/32"
-              - port: "53"
+            - rule_no: "61"
+              state: "present"
+              action: "accept"
+              protocol: "tcp_udp"
+              desc: "Allow DNS traffic to blog/DNS server (rasp pi)"
+              dest: 
+                - address: "172.22.132.186/32"
+                - port: "53"
 
-          - rule_no: "65"
-            state: "present"
-            action: "accept"
-            desc: "allow estab related traffic"
-            states:
-              - name: "established"
-                status: "present"
-              - name: "related"
-                status: "enabled"
+            - rule_no: "65"
+              state: "present"
+              action: "accept"
+              desc: "allow estab related traffic"
+              states:
+                - name: "established"
+                  status: "present"
+                - name: "related"
+                  status: "enabled"
 
-          - rule_no: "97"
-            state: "present"
-            action: "drop"
-            desc: "Block Traffic to Operator Assigned IP Space"
-            dest: 
-              - address: "172.22.132.160/27"
+            - rule_no: "97"
+              state: "present"
+              action: "drop"
+              desc: "Block Traffic to Operator Assigned IP Space"
+              dest: 
+                - address: "172.22.132.160/27"
 
-          - rule_no: "98"
-            state: "present"
-            action: "accept"
-            desc: "Allow Peer Transit"
-            dest: 
-              - group: "network-group Allowed-Transit-v4"
-            source: 
-              - group: "network-group Allowed-Transit-v4"
+            - rule_no: "98"
+              state: "present"
+              action: "accept"
+              desc: "Allow Peer Transit"
+              dest: 
+                - group: "network-group Allowed-Transit-v4"
+              source: 
+                - group: "network-group Allowed-Transit-v4"
 
-          - rule_no: "99"
-            state: "present"
-            action: "drop"
-            desc: "Black Hole"
+            - rule_no: "99"
+              state: "present"
+              action: "drop"
+              desc: "Black Hole"
 
-      - name: "Tunnels_Local_v4"
-        state: "present"
-        default_action: "drop"
-        rules:
-          - rule_no: "50"
-            state: "present"
-            action: "accept"
-            protocol: "icmp"
-            desc: "Accept ICMP to all"
+        - name: "Tunnels_Local_v4"
+          state: "present"
+          default_action: "drop"
+          rules:
+            - rule_no: "50"
+              state: "present"
+              action: "accept"
+              protocol: "icmp"
+              desc: "Accept ICMP to all"
 
-          - rule_no: "60"
-            state: "present"
-            action: "accept"
-            protocol: "tcp"
-            desc: "Allow BGP Sessions"
-            dest: 
-              - port: "179"
+            - rule_no: "60"
+              state: "present"
+              action: "accept"
+              protocol: "tcp"
+              desc: "Allow BGP Sessions"
+              dest: 
+                - port: "179"
 
-          - rule_no: "140"
-            state: "present"
-            action: "accept"
-            desc: "allow estab related traffic"
-            states:
-              - name: "established"
-                status: "present"
-              - name: "related"
-                status: "enabled"
+            - rule_no: "140"
+              state: "present"
+              action: "accept"
+              desc: "allow estab related traffic"
+              states:
+                - name: "established"
+                  status: "present"
+                - name: "related"
+                  status: "enabled"
 
-          - rule_no: "150"
-            state: "present"
-            action: "drop"
-            protocol: ""
-            desc: "Black Hole"
+            - rule_no: "150"
+              state: "present"
+              action: "drop"
+              protocol: ""
+              desc: "Black Hole"
 
 
-      - name: "WAN_Local"
-        state: "present"
-        default_action: "drop"
-        rules:
-          - rule_no: "10"
-            state: "present"
-            action: "accept"
-            desc: "accept SSH"
-            dest: 
-              - port: "22"
-            source: 
-              - address: "82.14.78.220"
-            protocol: "tcp_udp"
+        - name: "WAN_Local"
+          state: "present"
+          default_action: "drop"
+          rules:
+            - rule_no: "10"
+              state: "present"
+              action: "accept"
+              desc: "accept SSH"
+              dest: 
+                - port: "22"
+              source: 
+                - address: "82.14.78.220"
+              protocol: "tcp_udp"
 
-          - rule_no: "20"
-            state: "present"
-            action: "accept"
-            desc: "accept ICMP pings"
-            protocol: "icmp"
+            - rule_no: "20"
+              state: "present"
+              action: "accept"
+              desc: "accept ICMP pings"
+              protocol: "icmp"
 
-          - rule_no: "30"
-            state: "present"
-            action: "accept"
-            desc: "accept wg 51890 p2p_usman"
-            dest: 
-              - port: "51890"
-            source: ""
-            protocol: "udp"
+            - rule_no: "30"
+              state: "present"
+              action: "accept"
+              desc: "accept wg 51890 p2p_usman"
+              dest: 
+                - port: "51890"
+              source: ""
+              protocol: "udp"
 
-          - rule_no: "50"
-            state: "present"
-            action: "accept"
-            desc: "accept wg 51888 (chrismoos)"
-            dest: "port 51888"
-            protocol: "udp"
+            - rule_no: "50"
+              state: "present"
+              action: "accept"
+              desc: "accept wg 51888 (chrismoos)"
+              dest: "port 51888"
+              protocol: "udp"
 
-          - rule_no: "51"
-            state: "present"
-            action: "accept"
-            desc: "accept wg 51219 (iEdon)"
-            dest: 
-              - port: "51219"
-            protocol: "udp"
+            - rule_no: "51"
+              state: "present"
+              action: "accept"
+              desc: "accept wg 51219 (iEdon)"
+              dest: 
+                - port: "51219"
+              protocol: "udp"
 
-          - rule_no: "52"
-            state: "present"
-            action: "accept"
-            desc: "accept wg 23035 (lare)"
-            dest: 
-              - port: "23035"
-            protocol: "udp"
+            - rule_no: "52"
+              state: "present"
+              action: "accept"
+              desc: "accept wg 23035 (lare)"
+              dest: 
+                - port: "23035"
+              protocol: "udp"
 
-          - rule_no: "53"
-            state: "present"
-            action: "accept"
-            desc: "accept wg 23088 (SUNNET)"
-            dest: 
-              - port: "23088"
-            protocol: "udp"
+            - rule_no: "53"
+              state: "present"
+              action: "accept"
+              desc: "accept wg 23088 (SUNNET)"
+              dest: 
+                - port: "23088"
+              protocol: "udp"
 
-          - rule_no: "54"
-            state: "present"
-            action: "accept"
-            desc: "accept wg 23396 (theresa)"
-            dest: 
-              - port: "23396"
-            protocol: "udp"
+            - rule_no: "54"
+              state: "present"
+              action: "accept"
+              desc: "accept wg 23396 (theresa)"
+              dest: 
+                - port: "23396"
+              protocol: "udp"
 
-          - rule_no: "55"
-            state: "present"
-            action: "accept"
-            desc: "accept wg 21816 (potat0)"
-            dest: 
-              - port: "21816"
-            protocol: "udp"
+            - rule_no: "55"
+              state: "present"
+              action: "accept"
+              desc: "accept wg 21816 (potat0)"
+              dest: 
+                - port: "21816"
+              protocol: "udp"
 
-          - rule_no: "56"
-            state: "present"
-            action: "accept"
-            desc: "accept wg 52601 (burble)"
-            dest: 
-              - port: "52601"
-            protocol: "udp"
+            - rule_no: "56"
+              state: "present"
+              action: "accept"
+              desc: "accept wg 52601 (burble)"
+              dest: 
+                - port: "52601"
+              protocol: "udp"
 
-          - rule_no: "90"
-            state: "present"
-            action: "accept"
-            desc: "allow estab related traffic"
-            states:
-              - name: "established"
-                status: "present"
-              - name: "related"
-                status: "enabled"
+            - rule_no: "90"
+              state: "present"
+              action: "accept"
+              desc: "allow estab related traffic"
+              states:
+                - name: "established"
+                  status: "present"
+                - name: "related"
+                  status: "enabled"
+
+    firewalls6:
+      state: replaced
+      config:
+        - name: "Tunnels_In_v6"
+          state: "present"
+          default_action: "drop"
+          rules:
+            - rule_no: "68"
+              state: "present"
+              action: "drop"
+              desc: "Block Traffic to Operator Assigned IP Space"
+              dest: 
+                - group: "network-group My-Assigned-Space-v6 "
+
+            - rule_no: "70"
+              state: "present"
+              action: "accept"
+              desc: "Allow Peer Transit"
+              dest: 
+                - group: "network-group Allowed-Transit-v6"
+              source: 
+                - group: "network-group Allowed-Transit-v6"
+
+            - rule_no: "99"
+              state: "present"
+              action: "drop"
+              desc: "Black Hole"
+
+        - name: "Tunnels_Local_v6"
+          state: "present"
+          default_action: "drop"
+          rules:
+            - rule_no: "50"
+              state: "present"
+              action: "accept"
+              desc: "Block Traffic to Operator Assigned IP Space"
+              protocol: "ipv6-icmp"
+
+            - rule_no: "61"
+              state: "present"
+              action: "accept"
+              desc: "Allow BGP"
+              protocol: "tcp"
+              dest: 
+                - port: "179"
+
+            - rule_no: "99"
+              state: "present"
+              action: "drop"
+              desc: "Black Hole"
 
     interfaces:
       - name: "eth0"
@@ -225,7 +295,7 @@ routers:
         type: "loopback"
         state: "present"
         addrs: 
-          - "10.100.100.4/32"
+          - "172.22.132.165/32"
         desc: "fr-lil1"
         firewall:
 
@@ -514,16 +584,6 @@ routers:
           state: "present"
       
       peers:
-        #  uk-lon3 iBGP
-        - ip: "172.22.132.169"
-          state: "present"
-          remote_as: "4242421869"
-          source_interface: ""
-          extended_next_hop: False
-          ebgp_multihop: ""
-          route_maps:
-          desc: "iBGP_uk-lon3"
-
         # kioubit-MPBGP
         - ip: "fe80::ade0"
           state: "present"
@@ -721,105 +781,94 @@ routers:
 
       # for chrismoos-v4(as no extended next hop)
       - type: "interface-route"
-        network: "172.20.16.141"
+        network: "172.20.16.141/32"
         nexthop: "wg588"
         distance: ""
         state: "present"
 
     route_maps:
-      - name: "DN42-ROA"
-        desc: "DN42RouteMap"
-        rules:
-        - rule_no: "10"
-          state: "present"
-          action: "permit"
-          match: "ip address prefix-list DN42-Network"
+      state: ""
+      config:
+        - name: "DN42-ROA"
+          desc: "DN42RouteMap"
+          rules:
+          - rule_no: "10"
+            state: "present"
+            action: "permit"
+            match: "ip address prefix-list DN42-Network"
 
-        - rule_no: "15"
-          state: "present"
-          action: "permit"
-          match: "ipv6 address prefix-list DN42-Network-v6"
+          - rule_no: "15"
+            state: "present"
+            action: "permit"
+            match: "ipv6 address prefix-list DN42-Network-v6"
 
-        - rule_no: "20"
-          state: "present"
-          action: "deny"
-          match: "ip address prefix-list BlockIPConflicts"
+          - rule_no: "20"
+            state: "present"
+            action: "deny"
+            match: "ip address prefix-list BlockIPConflicts"
 
-        - rule_no: "50"
-          state: "present"
-          action: "deny"
-          match: "rpki invalid"
-
+          - rule_no: "50"
+            state: "present"
+            action: "deny"
+            match: "rpki invalid"
+    
     prefix_lists:
-      - name: "BlockIPConflicts"
-        desc: "Prevent Conflicting Routes"
-        rules:
-        - rule_no: "10"
+      state: "replaced"   # replaced = delete x, then config
+      config:
+        - name: "BlockIPConflicts"
+          desc: "Prevent Conflicting Routes"
           state: "present"
-          action: "permit"
-          desc: "Internal IP Space" # TODO in backend
-          match:
-          - prefix: "10.0.0.0/8"
-            length: "le 32"
+          rules:
+          - rule_no: "10"
+            state: "present"
+            action: "permit"
+            desc: "Internal IP Space"
+            match:
+              prefix: "10.0.0.0/8"
+              le: 32
 
-      - name: "DN42-Network"
-        desc: "DN42 IPv4 Space"
-        rules:
-        - rule_no: "10"
+        - name: "DN42-Network"
+          desc: "DN42 IPv4 Space"
           state: "present"
-          action: "permit"
-          desc: "DN42 IP Space" # TODO in backend
-          match:
-          - prefix: "172.20.0.0/14"
-            length: "le 32"
+          rules:
+          - rule_no: "10"
+            state: "present"
+            action: "permit"
+            desc: "DN42 IP Space"
+            match:
+              prefix: "172.20.0.0/14"
+              le: 32
+              ge: 19
 
-      - name: "block-other-ranges"
-        desc: "blocks-other-ranges"
-        rules:
-        - rule_no: "10"
+    prefix_lists6:
+      state: "replaced"   # replaced = delete x, then config
+      config:
+        - name: "DN42-Network-v6"
+          desc: "DN42 IPv6 Space"
           state: "present"
-          action: "deny"
-          match:
-          - prefix: "10.0.0.0/8"
-            length: "le 32"
+          rules:
+          - rule_no: "10"
+            state: "present"
+            action: "permit"
+            desc: "Internal IPv6 Space"
+            match:
+              prefix: "fd00::/8"
+              le: 128
 
-      - name: "filter-import"
-        desc: "filter imports to only include DN42 range"
-        rules:
-        - rule_no: "1"
-          state: "present"
-          action: "permit"
-          match:
-          - prefix: "172.20.0.0/14"
-            length: "le 32"
+    ospf:
+      state: replaced   # replaced = delete x, then config
+      config:
+        ospf_redistribute:
+          # - redistribute: "bgp"
+          #   route_map: ""
+          #   state: "absent"
 
-    # ospf:
-    #   # ospf_redistribute:
-    #   #   - redistribute: "bgp"
-    #   #     route_map: ""
-    #   #     state: "absent"
+        ospf_parameters:
+          use_routerid: True
+          routerid: "172.22.132.165"
 
-    #   ospf_parameters:
-    #     use_routerid: False
-    #     routerid: ""
-
-    #   ospf_networks:
-    #     - subnet: "10.100.100.0"
-    #       mask: "/24"
-    #       area: "1"
-    #       state: "present"
-
-    #     - subnet: "172.22.132.162"
-    #       mask: "/31"
-    #       area: "1"
-    #       state: "present"
-
-    #     - subnet: "172.22.132.176"
-    #       mask: "/31"
-    #       area: "0"
-    #       state: "present"
-
-    #     - subnet: "172.22.132.168"
-    #       mask: "/30"
-    #       area: "0"
-    #       state: "present"
+        ospf_networks:
+          - subnet: 172.22.132.160
+            mask: /27
+            area: 0
+            state: present
