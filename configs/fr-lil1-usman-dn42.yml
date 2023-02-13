@@ -1,7 +1,7 @@
 routers:
   - name: "fr-lil1"
     SSH_conf:
-      hostname: "172.22.132.165"
+      hostname: "172.22.132.167"
       username: "test"
       password: "test"
       use_keys: False
