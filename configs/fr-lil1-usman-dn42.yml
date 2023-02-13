@@ -787,7 +787,7 @@ routers:
         state: "present"
 
     route_maps:
-      state: ""
+      state: replaced
       config:
         - name: "DN42-ROA"
           desc: "DN42RouteMap"
