@@ -161,6 +161,15 @@ routers:
               source: ""
               protocol: "udp"
 
+            - rule_no: "40"
+              state: "present"
+              action: "accept"
+              desc: "accept wg 51801 (fr-lil1<>us-ca1)"
+              dest: 
+                - port: "51801"
+              source: ""
+              protocol: "udp"
+
             - rule_no: "50"
               state: "present"
               action: "accept"
@@ -317,6 +326,26 @@ routers:
             address: "82.14.78.220"
             port: "51891"
             pubkey: "UbhSaUPiASdfKB6G/Jz6JHeSM2zp+MJ2THWyUVoyBUY="
+            keepalive: "60"
+
+      # iBGP fr-lil1<>us-ca1
+      - name: "wg13"
+        type: "wireguard"
+        state: "present"
+        addrs: 
+          - "172.22.132.165/31"
+        desc: "DN42_iBGP_fr-lil1<>us-ca1"
+        privkey: "FRLIL1_PRIVKEY" # dotenv name
+        port: "51801"
+        firewall:
+        wg_peers:
+          - name: "us-ca1"
+            allowedips: 
+              - "0.0.0.0/0"
+              - "::/0"
+            address: "194.147.71.158"
+            port: "51802"
+            pubkey: "g2AlaR1LFUdnwauQuwt6oFc6ep8Wy1I+aLSUCIHghhQ="
             keepalive: "60"
 
       # kioubit
@@ -865,7 +894,7 @@ routers:
 
         ospf_parameters:
           use_routerid: True
-          routerid: "172.22.132.165"
+          routerid: "172.22.132.167"
 
         ospf_networks:
           - subnet: 172.22.132.160
