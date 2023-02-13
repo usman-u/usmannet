@@ -235,6 +235,8 @@ routers:
         desc: "fr-lil1"
         firewall:
 
+    wireguard_interfaces:
+
       # iBGP fr-lil1<>us-ca1
       - name: "wg13"
         type: "wireguard"
@@ -270,6 +272,49 @@ routers:
           mask: "/48"
           state: "present"
 
+
+    prefix_lists:
+      state: "replaced"   # replaced = delete x, then config
+      config:
+        - name: "BlockIPConflicts"
+          desc: "Prevent Conflicting Routes"
+          state: "present"
+          rules:
+          - rule_no: "10"
+            state: "present"
+            action: "permit"
+            desc: "Internal IP Space"
+            match:
+              prefix: "10.0.0.0/8"
+              le: 32
+
+        - name: "DN42-Network"
+          desc: "DN42 IPv4 Space"
+          state: "present"
+          rules:
+          - rule_no: "10"
+            state: "present"
+            action: "permit"
+            desc: "DN42 IP Space"
+            match:
+              prefix: "172.20.0.0/14"
+              le: 32
+              ge: 19
+
+    prefix_lists6:
+      state: "replaced"   # replaced = delete x, then config
+      config:
+        - name: "DN42-Network-v6"
+          desc: "DN42 IPv6 Space"
+          state: "present"
+          rules:
+          - rule_no: "10"
+            state: "present"
+            action: "permit"
+            desc: "Internal IPv6 Space"
+            match:
+              prefix: "fd00::/8"
+              le: 128
 
     ospf:
       state: ""
