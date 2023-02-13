@@ -255,6 +255,21 @@ routers:
             pubkey: "qwjXj/6R9ThUnqeOAYN+MxM6CbIgzjS8WFDdXuyEpHY="
             keepalive: "60"
 
+    bgp:
+      asn: "4242421869"
+      router_id: "172.22.132.162"
+
+      prefixes:
+        - prefix: "172.22.132.160"
+          address_family: "ipv4-unicast"
+          mask: "/27"
+          state: "present"
+        
+        - prefix: "fd5f:2bd0:1feb::"
+          address_family: "ipv6-unicast"
+          mask: "/48"
+          state: "present"
+
 
     ospf:
       state: ""
