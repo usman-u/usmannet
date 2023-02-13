@@ -295,7 +295,7 @@ routers:
         type: "loopback"
         state: "present"
         addrs: 
-          - "172.22.132.165/32"
+          - "172.22.132.167/32"
         desc: "fr-lil1"
         firewall:
 
