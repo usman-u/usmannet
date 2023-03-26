@@ -6,3 +6,4 @@ matplotlib
 discord_webhook
 cerberus
 network-automation-usman-u
+ntc-templates
