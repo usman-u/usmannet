@@ -3,17 +3,17 @@ type: docker
 name: USMAN.NET CI/CD
 
 steps:
-- name: Dry Run
-  image: python
-  environment:
-    FRLIL1_PRIVKEY:
-      from_secret: FRLIL1_PRIVKEY
-    USCA1_PRIVKEY:
-      from_secret: USCA1_PRIVKEY
-  commands:
-  - python3 envtest.py
-  - pip3 install -r requirements.txt
-  - python3 dry_run.py
+# - name: Dry Run
+#   image: python
+#   environment:
+#     FRLIL1_PRIVKEY:
+#       from_secret: FRLIL1_PRIVKEY
+#     USCA1_PRIVKEY:
+#       from_secret: USCA1_PRIVKEY
+#   commands:
+#   - python3 envtest.py
+#   - pip3 install -r requirements.txt
+#   - python3 dry_run.py
 
 - name: Deploy
   image: python

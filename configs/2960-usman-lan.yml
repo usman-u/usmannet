@@ -56,7 +56,7 @@ devices:
 
     - name: "g 0/5"
       state: "present"
-      desc: "Raspberry-DN42-Web-Server"
+      desc: "Raspberry-Pi-DN42/ns1/blog"
       routed: False
       mode: "access"
       access_vlan: "42"
@@ -64,11 +64,12 @@ devices:
 
     - name: "g 0/6"
       state: "present"
-      desc: "plex-usman-lan"
+      desc: "Trunk-to-DEV/PLEX/vlan.42"
       routed: False
-      mode: "access"
-      access_vlan: "10"
-      spanning_tree: "portfast"
+      mode: "trunk"
+      native_vlan: "10"
+      allowed_vlans: 10, 42
+      spanning_tree: "portfast trunk"
 
     - name: "g 0/7"
       state: "present"
