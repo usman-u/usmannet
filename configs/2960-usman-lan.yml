@@ -59,7 +59,7 @@ devices:
       state: "present"
       desc: "FREE"
       routed: False
-      mode: "trunk"
+      mode: "access"
       access_vlan: "30"
       spanning_tree: "portfast"
 
