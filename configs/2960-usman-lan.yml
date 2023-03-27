@@ -58,9 +58,10 @@ devices:
       state: "present"
       desc: "Raspberry-Pi-DN42/ns1/blog"
       routed: False
-      mode: "access"
-      access_vlan: "42"
-      spanning_tree: "portfast"
+      mode: "trunk"
+      native_vlan: "10"
+      allowed_vlans: 10, 42
+      spanning_tree: "portfast trunk"
 
     - name: "g 0/6"
       state: "present"
