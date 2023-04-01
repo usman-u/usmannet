@@ -13,6 +13,10 @@ devices:
       name: "DN42 Public Subnet"
       state: "present"
 
+    - id: "99"
+      name: "WAN-VLAN"
+      state: "present"
+
     interfaces:
     - name: "vlan10"
       state: "present"
@@ -96,9 +100,35 @@ devices:
       access_vlan: "30"
       spanning_tree: "portfast"
 
+    - name: "g 0/20"
+      state: "present"
+      desc: "MODEM-IN-(SPAN-Port-Source)"
+      routed: False
+      mode: "access"
+      access_vlan: "99"
+      spanning_tree: "portfast"
+
+    - name: "g 0/21"
+      state: "present"
+      desc: "MODEM-OUT-To-ERX"
+      routed: False
+      mode: "access"
+      access_vlan: "99"
+      spanning_tree: "portfast"
+
+      # no VLANS etc, as SPAN port dest
+    - name: "g 0/22"
+      state: "present"
+      desc: "To-Packet-Sniffer-(SPAN-Port-Destination)"
+      routed: False
+      # mode: "access"
+      # access_vlan: "0"
+      # spanning_tree: "portfast"
+
+
     - name: "g 0/41"
       state: "present"
-      desc: "Trunk-ERX"
+      desc: "Trunk-To-ERX-(UPLINK)"
       routed: False
       mode: "trunk"
       # spanning_tree: "portfast trunk"
